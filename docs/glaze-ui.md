@@ -4,7 +4,7 @@
 
 This document defines the repository-local implementation contract for the GoreeCloud Manager interface. Manager uses **Glaze UI** as its complete visual and interaction language while preserving the application's read-only security model and the authority of integrated systems.
 
-Manager targets **Glaze UI 1.3.0 Stable**. The canonical design-system source is `GoreeCloud/glaze-ui` at reconciled Stable main revision `0cd084d9c888a9697cbd9fdd2c4d2bd91286c56c`; the accepted 1.3 design candidate was validated at `e206c3da3f5c0df1f1d0e73d7339f9b45b0e1f16` and promoted through PR #6. Manager maps those semantics into its existing product layer instead of copying the canonical reference stylesheet wholesale.
+Manager's implemented source mapping is **Glaze UI 1.3.0**. The current shared Stable consumer target is **Glaze UI 1.6.0**, whose accepted release source is `a7180679ea851389e0f3004515f9a25f420e716d` in `GoreeCloud/glaze-ui`. Manager is therefore **migration-required**: the existing 1.3.0 implementation remains truthful historical/current implementation evidence, but it is not current-Stable conformance. This stabilization does not claim substantive 1.6.0 migration, rendered acceptance, accessibility acceptance, representative-target acceptance, rollback acceptance, deployment, production acceptance, release approval, or Stable qualification.
 
 This implementation is governed by the shared GoreeCloud Glaze UI Design Language, the Application Branding and User Interface Design Standard, Privacy by Default, and the Code Structure and Documentation Standard. Repository-local rules may make those requirements more specific but do not weaken them.
 
