@@ -63,12 +63,12 @@ platform_systems:
 
   glaze_ui:
     result: applicable-migration-required
-    version: '1.3.0'
+    version: '1.6.0'
     evidence:
       - docs/glaze-ui.md
       - core/static/core/css/glaze-ui.css
       - CAPABILITIES.md
-    notes: Manager's implemented source mapping remains Glaze UI 1.3.0. Current shared Stable consumer authority is 1.6.0, so substantive migration, rendered/accessibility acceptance, representative-target validation, rollback, and production acceptance remain required.
+    notes: Manager source now maps the authenticated interface to current Stable Glaze UI 1.6.0 through a bounded repository-local presentation layer. Rendered, keyboard/200% text/accessibility, representative-performance, rollback, deployed-equivalence, central consumer-registry, release, and production acceptance remain required; source adoption alone is not downstream conformance.
 
   mesh:
     result: applicable-blocked
@@ -169,6 +169,6 @@ conformance:
     - GoreeCloud Observability integration remains blocked pending an accepted platform runtime contract and Manager-specific evidence.
     - GoreeCloud Sync remains separately governed; Manager-to-Sync integration and acceptance remain outstanding where applicable.
     - Wardveil Security runtime integration and acceptance remain outstanding.
-    - Manager remains implemented at Glaze UI 1.3.0 and requires migration and consumer acceptance against current Stable Glaze UI 1.6.0.
+    - Manager source maps to current Stable Glaze UI 1.6.0, but repository-local source validation does not establish rendered/accessibility/performance, rollback, deployed-equivalence, central consumer-registry, release, production, or product Stable acceptance.
     - Full target-environment backup, restore, publication, deployment/rollback, and production-readiness acceptance remain outstanding.
     - Release approval and Stable qualification remain outstanding.
