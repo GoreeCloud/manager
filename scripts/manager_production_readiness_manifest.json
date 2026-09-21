@@ -6,7 +6,7 @@
     "approval_reference": null,
     "approved_at": null
   },
-  "declared_effective_check_count": 10,
+  "declared_effective_check_count": 11,
   "source_evidence_gates": [
     {
       "workflow_path": ".github/workflows/ci.yml",
@@ -71,7 +71,15 @@
       "required_jobs": [
         "validate"
       ],
-      "evidence_scope": "repository-root GoreeCloud Platform Contract v0.1 declaration validation against an immutable central validator; structural validity does not establish runtime integration, production, or Stable acceptance"
+      "evidence_scope": "repository-root GoreeCloud Platform Contract 0.4 declaration validation against the pinned current central evaluator; structural validity does not establish runtime integration, production, or Stable acceptance"
+    },
+    {
+      "workflow_path": ".github/workflows/repository-baseline.yml",
+      "workflow_name": "Repository Baseline",
+      "required_jobs": [
+        "validate"
+      ],
+      "evidence_scope": "mandatory repository documentation and control baseline, canonical repository and branding identities, Platform Contract 0.4/current Glaze target declarations, and exact-revision checkout/readback"
     },
     {
       "workflow_path": ".github/workflows/production-readiness-evidence-manifest.yml",
