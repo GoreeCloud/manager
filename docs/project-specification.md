@@ -2,7 +2,7 @@
 
 ## Current Authority Note — September 21, 2026
 
-The canonical repository is `GoreeCloud/manager`. Manager's current platform declaration targets Platform Contract 0.4 with exactly nine Integral Platform Systems; GoreeCloud Sync remains separately governed. The implemented presentation source mapping remains Glaze UI 1.3.0, while current shared Stable Glaze UI authority is 1.6.0. Older repository-identity, eight-system Platform Contract, or 1.3.0-as-current-Stable wording retained in historical implementation discussion does not override these current authority boundaries. Manager remains Development/nonconformant until required migrations and acceptance gates are verified.
+The canonical repository is `GoreeCloud/manager`. Manager's current platform declaration targets Platform Contract 0.4 with exactly nine Integral Platform Systems; GoreeCloud Sync remains separately governed. Manager's authenticated application source now maps to current Stable Glaze UI 1.6.0 through a bounded repository-local presentation layer. This source adoption does not establish rendered, accessibility, representative-performance, rollback, deployed-equivalence, central consumer-registry, production, release, or Stable acceptance. Older repository-identity, eight-system Platform Contract, or historical Glaze wording retained below does not override these current authority boundaries.
 
 
 ## Document Metadata
@@ -238,7 +238,7 @@ The interface must provide:
 - keyboard-accessible navigation;
 - a skip link and programmatically focusable main target;
 - visible focus indicators;
-- practical minimum 44-pixel interactive targets;
+- practical minimum 48-pixel interactive targets, with a 56-pixel Touch Assistance mapping where explicitly requested;
 - reduced-motion and reduced-transparency behavior where supported;
 - increased-contrast behavior where requested;
 - forced-colors/High Contrast operability;
