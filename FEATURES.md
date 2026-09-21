@@ -6,7 +6,7 @@ GoreeCloud Manager currently includes source-validated foundations for:
 
 - authenticated server-rendered administration;
 - process-liveness and database-aware readiness endpoints;
-- responsive GoreeCloud administration surfaces;
+- responsive GoreeCloud administration surfaces mapped to the current Glaze UI 1.6.0 source target;
 - local System, Light, and Dark appearance preference;
 - read-only NetBird peer/private-network visibility;
 - read-only Healthchecks scheduled-job visibility;
@@ -21,7 +21,7 @@ GoreeCloud Manager currently includes source-validated foundations for:
 
 ## Current platform state
 
-The repository is Development and nonconformant under the current platform contract until its required migrations and runtime acceptance gates are completed. The current interface implementation remains mapped to Glaze UI 1.3.0 while current shared Stable authority is Glaze UI 1.6.0.
+The repository is Development and nonconformant under the current platform contract until its required runtime and acceptance gates are completed. The authenticated interface now has a repository-local Glaze UI 1.6.0 source mapping; rendered, accessibility, representative-performance, rollback, deployed-equivalence, central consumer-registry, and production acceptance remain separate gates.
 
 ## Not established by current source
 

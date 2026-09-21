@@ -1,109 +1,142 @@
-# GoreeCloud Manager — Glaze UI
+# GoreeCloud Manager — GLAZE UI V1.6 Source Adoption
 
-## Purpose and authority
+## Status and authority
 
-This document defines the repository-local implementation contract for the GoreeCloud Manager interface. Manager uses **Glaze UI** as its complete visual and interaction language while preserving the application's read-only security model and the authority of integrated systems.
+**Lifecycle:** Development source adoption  
+**Consumer target:** GLAZE UI V1.6 / 1.6.0 Stable  
+**Canonical Glaze repository:** `GoreeCloud/glaze-ui`  
+**Accepted release source:** `a7180679ea851389e0f3004515f9a25f420e716d`  
+**Stable runtime entrypoint:** `js/glaze-v1.6.0.mjs`  
+**Known-good shared rollback baseline:** 1.5.1  
+**Manager consumer acceptance:** pending  
+**Manager production acceptance:** not established
 
-Manager's implemented source mapping is **Glaze UI 1.3.0**. The current shared Stable consumer target is **Glaze UI 1.6.0**, whose accepted release source is `a7180679ea851389e0f3004515f9a25f420e716d` in `GoreeCloud/glaze-ui`. Manager is therefore **migration-required**: the existing 1.3.0 implementation remains truthful historical/current implementation evidence, but it is not current-Stable conformance. This stabilization does not claim substantive 1.6.0 migration, rendered acceptance, accessibility acceptance, representative-target acceptance, rollback acceptance, deployment, production acceptance, release approval, or Stable qualification.
+This document defines the repository-local presentation contract for GoreeCloud Manager. The current Manager source maps its authenticated application shell and operational surfaces to the current Stable GLAZE UI V1.6 presentation language while preserving Manager's read-only security model and the authority of every integrated system.
 
-This implementation is governed by the shared GoreeCloud Glaze UI Design Language, the Application Branding and User Interface Design Standard, Privacy by Default, and the Code Structure and Documentation Standard. Repository-local rules may make those requirements more specific but do not weaken them.
+This is **source adoption**, not downstream consumer acceptance. Passing repository tests cannot grant Glaze consumer-registry acceptance, deployment approval, production acceptance, release approval, or Manager Stable qualification.
 
-## Source structure
+## Authority boundary
 
-The presentation layer is deliberately small and auditable:
+GLAZE UI is presentation-only. It may present state supplied by Manager or by an authoritative integration, but it must not manufacture privacy, security, recovery, identity, policy, observability, connectivity, authorization, deployment, or production truth.
 
-- `core/templates/core/base.html` — shared application shell, GoreeCloud identity, browser metadata, navigation, appearance control, Glaze 1.3 material/action metadata, and main-content landmark.
-- `core/static/core/css/app.css` — Manager-specific layout, component presentation, semantic states, responsive grids, and product-level visual tokens.
-- `core/static/core/css/glaze-ui.css` — cross-cutting Glaze UI conformance for identity, touch targets, focus behavior, form semantics, Functional Glass, expressive shape/motion, adaptive grouping, accessibility, and browser capability fallbacks.
-- `core/static/core/js/theme.js` — browser-local System/Light/Dark appearance preference with no server or third-party transmission.
-- `core/static/core/img/manager-mark.svg` — GoreeCloud-controlled local Manager mark used by the application shell and browser favicon.
+Manager remains responsible for application behavior and least-privilege integration boundaries. Privacy Shield, Wardveil Security, Everkeep, GoreeCloud Identity, GoreeCloud Mesh, GoreeCloud Policy, and GoreeCloud Observability retain their own authority.
 
-Keeping these responsibilities separate makes the design system easier to inspect and prevents one large stylesheet or script from becoming the undocumented authority for unrelated behavior.
+A favorable color, material, status chip, loading state, or animation can never upgrade an unavailable, stale, blocked, unknown, or unverified operational state.
 
-## Governing visual language
+## Repository-local mapping
 
-Manager should be recognizable as GoreeCloud before the user reads the product name. The interface therefore uses the Glaze UI signature deliberately rather than applying generic framework styling.
+Manager does not copy the canonical Glaze runtime wholesale into the Django application. The repository implements a bounded product-specific CSS/HTML/JavaScript mapping for the V1.6 presentation behavior actually exercised by the authenticated interface.
 
-The shared visual vocabulary includes layered surfaces, softened rounded geometry, restrained shadows, purposeful gradients, consistent typography and spacing, strong System/Light/Dark appearance behavior, responsive administration layouts, and semantic state/focus treatment.
+- `core/templates/core/base.html` declares the V1.6 source target, shared landmarks, GoreeCloud identity, local assets, Soft Glaze navigation chrome, adaptive action grouping, and the application main target.
+- `core/static/core/css/app.css` owns Manager-specific product layout, operational surfaces, status presentation, product color roles, and responsive content composition.
+- `core/static/core/css/glaze-ui.css` owns the repository-local V1.6 cross-cutting contract: 48 px interactive minimums, optional 56 px Touch Assistance, Soft Glaze navigation material, solid operational surfaces, focus, form behavior, safe-area resilience, performance material reduction, Reduced Motion, Reduced Transparency, Increased Contrast, Forced Colors, and unsupported-backdrop fallbacks.
+- `core/static/core/js/theme.js` owns the browser-local System/Light/Dark preference and maps explicit choices to the V1.6 `data-glz-appearance` semantic without transmitting the setting.
+- `tests/test_glaze_ui_contract.py` fails closed when the source mapping, privacy boundary, local-only dependency rule, or required V1.6 fallback behavior drifts.
 
-Glaze UI 1.3 adds a stricter material boundary: glass is a functional hierarchy tool, not the default content treatment. Manager therefore keeps ordinary operational information on Solid/Raised surfaces while reserving Functional Glass for navigation and interactive chrome.
+The local CSS is not represented as a byte-identical copy of `js/glaze-v1.6.0.mjs`. The canonical Glaze release remains the design-system authority; Manager's repository-local mapping remains application-specific evidence.
 
-## Glaze UI 1.3 expressive-hierarchy mapping
+## Material and hierarchy
 
-Manager adopts the 1.3 expressive layer conservatively because it is an operational administration product rather than a showcase interface.
+Manager is an operational administration console, so expressive treatment is intentionally bounded.
 
-The product layer explicitly maps:
+Persistent navigation chrome may use V1.6 **Soft Glaze**. Primary operational reading surfaces—hero regions, cards, metrics, recovery panels, authentication content, and status details—remain solid or raised surfaces. Glass is not a universal card treatment.
 
-- **Functional Glass** to the sticky application header and navigation chrome;
-- Solid/Raised treatment to hero, operational cards, metrics, details, protection information, and authentication content;
-- Compact, Standard, Expressive, Hero, and Pressed shape semantics, with stronger geometry concentrated in hero and selected/action states;
-- separate **effects motion** for color, border, and shadow feedback and **spatial motion** for transform and geometry changes;
-- adaptive action grouping for navigation and header controls without changing logical or keyboard order;
-- compact reachability behavior that preserves DOM order while maintaining practical touch sizing for frequent actions;
-- bounded pressed-state geometry and motion rather than decorative animation;
-- dedicated focus-ring and text-selection semantics, canonical placeholder opacity, field/group/message spacing, and 44-pixel minimum targets retained from 1.2.
+Manager does not add visual richness merely to demonstrate design-system capabilities. Optional V1.6 systems are exercised only when they serve a real application need.
 
-Manager does not introduce Clear Glass because it does not currently place controls over rich media. It also does not introduce checkbox, radio, switch, segmented-control, progress, or banner primitives solely to demonstrate design-system coverage. When one of those controls becomes functionally necessary, it must use the current Glaze semantic and accessibility contract rather than a product-local substitute.
+## Interaction sizing and input behavior
 
-## GoreeCloud identity
+The V1.6 source mapping uses a 48 px minimum interactive target. An explicit `data-glz-touch-assistance="true"` presentation context raises the effective minimum to 56 px without changing logical or keyboard order.
 
-The application shell identifies the product as **GoreeCloud Manager** and uses only GoreeCloud-controlled local presentation assets. The Manager mark is an original repository asset; no remote logo, icon set, font, analytics library, or design CDN is required.
+Native input, select, textarea, and button semantics are preserved. Manager does not replace native controls with role-mimicking elements merely for visual styling.
 
-Primary and secondary application surfaces inherit the same shared shell. Authentication is therefore part of the GoreeCloud product experience rather than a default Django presentation surface.
+Focus remains visible and semantic. Keyboard navigation order follows DOM order, and adaptive action grouping must not reorder actions in a way that changes meaning or accessibility.
 
-## Private-application browser metadata
+## Appearance and first paint
 
-The shared shell declares `robots=noindex,nofollow,noarchive`, `referrer=same-origin`, a private-administration description, and a local GoreeCloud Manager SVG favicon. These settings are privacy and presentation defense in depth and do not replace authentication, private networking, Caddy/NetBird publication controls, or server-side authorization.
+Manager supports System, Light, and Dark appearance modes.
 
-## Theme behavior and first paint
+The local appearance script runs before stylesheets so an explicit browser-local preference can be applied before first stylesheet-driven paint. Explicit Light or Dark choices set both the existing Manager theme attribute and the V1.6 `data-glz-appearance` semantic. System mode removes explicit appearance overrides and follows the operating-system preference.
 
-The default appearance mode is `System`, which follows `prefers-color-scheme`. The appearance control cycles System, Light, and Dark. Only explicit Light or Dark choices are stored; returning to System removes the stored override.
+The preference is stored only in browser `localStorage` under `goreecloud-manager-theme`. It is not written to the Manager database, sent to an integration, used for analytics, or used for profiling.
 
-`theme.js` is intentionally loaded before the stylesheets so the root appearance is applied before the first stylesheet-driven paint. The preference is stored only in browser `localStorage` under `goreecloud-manager-theme`; it is not sent to Manager, stored in the Manager database, exposed to an integration, or used for analytics or tracking.
+Manager does not infer performance or accessibility settings from undocumented device heuristics such as processor count or memory size.
 
-## Accessibility and interaction contract
+## Accessibility and resilience
 
-The shared shell must preserve semantic header/navigation/main landmarks, a keyboard-accessible skip link, visible semantic focus indicators, practical 44-pixel targets, persistent authentication labels, readable contrast, keyboard operation, reduced-motion behavior, reduced-transparency behavior, stronger separation under `prefers-contrast: more`, forced-colors operation, solid fallbacks when backdrop filtering is unavailable, and meaningful authentication-error alerts.
+The shared shell and product surfaces must preserve:
 
-Glaze 1.3 motion remains progressive enhancement. Effects and spatial transitions collapse to effectively instant behavior when reduced motion is requested. Functional Glass becomes a solid strong surface when reduced transparency is requested or backdrop filtering is unavailable. Color is never the sole carrier of state.
+- semantic header, navigation, main, form, status, and alert relationships;
+- a keyboard-accessible skip link and focusable main target;
+- persistent form labels and native input semantics;
+- visible focus indicators;
+- text that remains meaningful without relying on color alone;
+- 200% text and narrow-screen reflow without clipping essential state;
+- Reduced Motion behavior that removes nonessential transition/spatial motion;
+- Reduced Transparency behavior that removes backdrop dependence;
+- Increased Contrast behavior that strengthens boundaries and text cues;
+- Forced Colors / High Contrast operation using system colors;
+- solid raised fallbacks when backdrop filtering is unavailable;
+- safe-area aware layout and horizontally resilient navigation;
+- local-only presentation dependencies.
 
-## Privacy and dependency boundary
+## Performance adaptation
 
-Manager's browser presentation is self-contained. The Glaze UI implementation must not introduce remote fonts, remote JavaScript, remote stylesheets, analytics or behavioral tracking, telemetry SDKs, advertising resources, or externally hosted icons or branding assets.
+V1.6 performance presentation is explicit rather than inferred.
 
-## Integration presentation
+`data-glaze-performance="constrained"` reduces the effective navigation blur. `data-glaze-performance="minimal"` removes blur and increases material opacity. These attributes change presentation only; they never hide required operational information or change integration state.
 
-Glaze UI changes presentation only. Manager integrations keep their existing authorization, credential, network, artifact, timeout, fail-soft, and data-minimization boundaries. Resource monitoring, service availability, scheduled-job monitoring, protection state, private-network visibility, and operational work remain visually and semantically distinct. Manager must not imply that one signal proves another.
+The application does not automatically assign a performance state from hardware heuristics in this source slice.
 
-## Automated conformance
+## Privacy and browser dependency boundary
 
-Repository validation for the UI foundation includes:
+The Manager browser presentation remains self-contained. The authenticated application must not require remote fonts, remote scripts, remote stylesheets, analytics, advertising, telemetry SDKs, externally hosted icons, or other presentation resources that would add unnecessary third-party browser requests.
+
+Local presentation state must not become tracking state.
+
+## Truthful operational status
+
+Manager may display provider state only within the authority and freshness of the owning integration.
+
+V1.6 status presentation must preserve explicit text labels for configuration, healthy, degraded, misconfigured, unavailable, planned, disabled, recovery, privacy, and work-management states. Styling may reinforce those states but cannot replace them.
+
+Missing or failed integration evidence must continue to fail soft for the Manager shell and fail closed for stronger claims.
+
+## Source validation
+
+Repository CI validates the exact pull-request head and includes:
 
 ```bash
-python -m pip check
 node --check core/static/core/js/theme.js
 python manage.py collectstatic --noinput
 python manage.py check
 python manage.py test
 ```
 
-The Django/source suite includes regression coverage for:
+The Glaze source tests verify the V1.6 declaration, Soft Glaze boundary, solid operational surfaces, 48/56 px sizing, local appearance mapping, accessibility and performance fallbacks, local-only dependencies, static product identity, native form behavior, and shared-shell inheritance.
 
-- GoreeCloud Manager identity and local mark;
-- exact Glaze UI 1.3.0 consumer declaration and canonical revision documentation;
-- Functional Glass limited to application chrome;
-- Solid/Raised operational content defaults;
-- expressive shape roles and bounded pressed geometry;
-- separate effects/spatial motion tokens and reduced-motion collapse;
-- adaptive action-group and compact-reachability markers with preserved DOM order;
-- focus, selection, placeholder, form-spacing, native-control, and minimum-target semantics retained from 1.2;
-- noindex/noarchive and same-origin browser metadata;
-- shared-shell inheritance, local-only presentation dependencies, pre-stylesheet appearance initialization, skip-link/main-target semantics, responsive/accessibility fallbacks, and active-navigation semantics.
+Successful source validation establishes only repository-local source/build evidence.
 
-These automated tests establish a source-controlled conformance baseline. They do not substitute for visual review in real browsers.
+## Consumer acceptance boundary
 
-## Release review boundary
+Current shared Glaze authority requires fresh repository-local 1.6.0 consumer evidence. The central consumer registry currently records GoreeCloud Manager as **adoption-required** and production-ineligible. That registry also retains a historical Manager repository identifier; this Manager repository does not silently rewrite that separate authority.
 
-Before a production release is visually approved, material interface changes should receive authenticated browser review at representative desktop and mobile widths in System, Light, and Dark modes. Review should include keyboard-only navigation, reduced motion, reduced transparency where supported, increased contrast, forced colors/high contrast, authentication errors, empty states, degraded integration states, long operational values, Functional Glass readability, compact reachability, adaptive action grouping, and confirmation that operational content remains calm rather than becoming decorative glass.
+Before Manager can claim current Glaze consumer acceptance, the applicable process must verify the exact Manager revision through representative authenticated rendering, keyboard review, 200% text, Reduced Motion, Reduced Transparency, Increased Contrast, Forced Colors, applicable assistive technology, representative performance/fallback behavior, deterministic build/provenance, rollback, deployed-byte equivalence where applicable, and central consumer-registry reconciliation.
 
-Passing repository tests means the source-level Glaze UI contract is intact. It does not by itself claim that every rendered browser/OS combination has been visually inspected or that Manager is approved for production publication.
+## Release and production boundary
+
+GLAZE UI V1.6 being Stable does not make Manager Stable.
+
+This source adoption does not establish:
+
+- deployed Manager UI equivalence;
+- production publication;
+- production runtime acceptance;
+- central consumer-registry acceptance;
+- representative human visual acceptance;
+- assistive-technology acceptance;
+- application-specific performance acceptance;
+- rollback acceptance;
+- Manager release approval; or
+- Manager Stable qualification.
+
+Those gates remain separate and fail closed.

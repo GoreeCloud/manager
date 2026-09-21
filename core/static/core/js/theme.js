@@ -29,8 +29,10 @@
   function applyRootAppearance(value) {
     if (value === "system") {
       root.removeAttribute("data-theme");
+      root.removeAttribute("data-glz-appearance");
     } else {
       root.setAttribute("data-theme", value);
+      root.setAttribute("data-glz-appearance", value);
     }
     root.dataset.appearance = value;
   }

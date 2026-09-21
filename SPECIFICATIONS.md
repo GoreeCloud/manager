@@ -5,7 +5,7 @@
 **Lifecycle:** Development  
 **Canonical repository:** `GoreeCloud/manager`  
 **Platform Contract:** 0.4  
-**Implemented Glaze UI source mapping:** 1.3.0  
+**Implemented Glaze UI source mapping:** 1.6.0  
 **Required current Stable Glaze UI target:** 1.6.0  
 **Production acceptance:** not established  
 **Stable qualification:** not established
@@ -16,7 +16,7 @@ GoreeCloud Manager is the native administration and operational console for Gore
 
 ## Current implemented foundation
 
-The current main-line implementation provides an authenticated Django web application, process-liveness and database-aware readiness endpoints, read-only operational integrations, sanitized delegated-artifact integrations, a read-only GoreeCloud Tasks adapter, repository CI, container packaging, and source-level Glaze UI 1.3.0 presentation behavior.
+The current main-line implementation provides an authenticated Django web application, process-liveness and database-aware readiness endpoints, read-only operational integrations, sanitized delegated-artifact integrations, a read-only GoreeCloud Tasks adapter, repository CI, container packaging, and a repository-local Glaze UI 1.6.0 source presentation mapping with consumer acceptance still pending.
 
 Current source includes bounded Privacy Shield and Everkeep status integrations. Wardveil Security, GoreeCloud Mesh, GoreeCloud Identity, GoreeCloud Policy, and GoreeCloud Observability remain blocked or migration-required until accepted contracts and runtime evidence exist.
 
@@ -35,4 +35,4 @@ Current source includes bounded Privacy Shield and Everkeep status integrations.
 
 ## Current blockers
 
-Manager has not completed Platform Contract 0.4 runtime acceptance, substantive Glaze UI 1.6.0 migration and consumer acceptance, live Identity/Mesh/Policy/Observability integration, Wardveil runtime acceptance, target-environment backup/restore qualification, deployment and rollback verification, production publication, release approval, or Stable qualification.
+Manager has not completed Platform Contract 0.4 runtime acceptance, Glaze UI 1.6.0 downstream consumer acceptance, representative rendered/accessibility/performance/rollback acceptance, live Identity/Mesh/Policy/Observability integration, Wardveil runtime acceptance, target-environment backup/restore qualification, deployment and rollback verification, production publication, release approval, or Stable qualification.

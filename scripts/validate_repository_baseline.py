@@ -93,9 +93,12 @@ def validate_repository_baseline(root: Path = ROOT) -> list[str]:
     if glaze.is_file():
         text = glaze.read_text(encoding="utf-8")
         for token in (
-            "implemented source mapping is **Glaze UI 1.3.0**",
-            "current shared Stable consumer target is **Glaze UI 1.6.0**",
-            "migration-required",
+            "GLAZE UI V1.6",
+            "1.6.0",
+            "a7180679ea851389e0f3004515f9a25f420e716d",
+            "source adoption",
+            "consumer acceptance",
+            "production acceptance",
         ):
             if token not in text:
                 problems.append(f"Glaze UI record missing truthful current-target boundary: {token}")

@@ -18,8 +18,8 @@ This file is the repository-side feature roadmap control for GoreeCloud Manager.
 | FR-002 | Move actionable feature obligations into GoreeCloud Tasks Management when required, preserving priority, dependency, and lifecycle disposition. | High | Ongoing control |
 | FR-003 | Do not mark features implemented, complete, cancelled, or superseded without authoritative evidence and synchronized repository/Drive roadmap updates. | High | Ongoing control |
 | FR-004 | Maintain and CI-enforce the mandatory repository documentation and pull-request baseline, including CAPABILITIES.md and exact-revision checkout/readback. | High | Ongoing control |
-| FR-005 | Maintain Platform Contract 0.4 with exactly nine Integral Platform Systems and keep GoreeCloud Sync separately governed. | High | Migration in progress until authoritative merge and post-merge verification |
-| FR-006 | Migrate Manager's implemented Glaze UI 1.3.0 presentation to current Stable Glaze UI 1.6.0 and complete rendered, accessibility, representative-target, rollback, and production acceptance. | High | Open |
+| FR-005 | Maintain Platform Contract 0.4 with exactly nine Integral Platform Systems and keep GoreeCloud Sync separately governed. | High | Source declaration integrated on authoritative main; runtime/platform-system acceptance remains independently gated |
+| FR-006 | Maintain Manager's Glaze UI 1.6.0 source mapping and complete rendered, accessibility, representative-target/performance, rollback, deployed-equivalence, central consumer-registry, and production acceptance. | High | Development — V1.6 source migration candidate; downstream acceptance remains open |
 | FR-007 | Complete live Identity, Mesh, Wardveil Security, Policy, Observability, recovery, deployment/rollback, production, release, and Stable acceptance gates without manufacturing authority from source-only evidence. | High | Open |
 
 ## Maintenance and synchronization

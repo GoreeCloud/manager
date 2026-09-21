@@ -1,14 +1,15 @@
 /*
- * GoreeCloud Manager — Glaze UI 1.3.0 conformance layer
+ * GoreeCloud Manager — Glaze UI 1.6.0 source-adoption layer
  *
  * app.css owns Manager-specific layout and component presentation. This file
- * owns cross-cutting Glaze UI identity, accessibility, interaction, form,
- * expressive hierarchy, and browser capability fallbacks so those requirements
- * remain easy to audit.
+ * owns the bounded repository-local Glaze UI 1.6 presentation mapping used by
+ * Manager: semantic surfaces, accessibility, input sizing, motion, resilience,
+ * performance fallbacks, and truthful status presentation. Source adoption does
+ * not imply rendered, deployment, production, or central consumer acceptance.
  */
 
 :root {
-  --glaze-contract-version: "1.3.0";
+  --glaze-contract-version: "1.6.0";
   --glaze-canvas: var(--bg);
   --glaze-surface: var(--surface);
   --glaze-surface-strong: var(--surface-strong);
@@ -27,14 +28,17 @@
   --glaze-control-field-gap: .5rem;
   --glaze-control-group-gap: 1rem;
   --glaze-control-message-gap: .375rem;
-  --glaze-target-min: 2.75rem;
+  --glaze-touch-min: 3rem;
+  --glaze-touch-assistance-min: 3.5rem;
+  --glaze-effective-touch-min: var(--glaze-touch-min);
+  --glaze-target-min: var(--glaze-effective-touch-min);
   --glaze-state-hover: .08;
   --glaze-state-pressed: .12;
   --glaze-state-focus: .14;
   --glaze-state-selected: .12;
   --glaze-gutter: 1rem;
 
-  /* 1.3 expressive hierarchy. */
+  /* V1.6 keeps expressive hierarchy bounded by operational clarity. */
   --glaze-shape-compact: .625rem;
   --glaze-shape-standard: 1rem;
   --glaze-shape-expressive: 1.375rem;
@@ -49,6 +53,39 @@
   --glaze-motion-spatial-emphasized: 360ms;
   --glaze-easing-effects: ease;
   --glaze-easing-spatial: cubic-bezier(.2, .8, .2, 1);
+  --glaze-effective-blur: var(--glaze-glass-functional-blur);
+  --glaze-effective-opacity: .88;
+  --glaze-motion-scale: 1;
+}
+
+:root[data-glz-touch-assistance="true"] {
+  --glaze-effective-touch-min: var(--glaze-touch-assistance-min);
+}
+
+:root[data-glaze-performance="constrained"] {
+  --glaze-effective-blur: 14px;
+}
+
+:root[data-glaze-performance="minimal"] {
+  --glaze-effective-blur: 0px;
+  --glaze-effective-opacity: 1;
+}
+
+html {
+  scroll-padding-top: 5.5rem;
+  text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  overflow-wrap: break-word;
+}
+
+img,
+svg,
+video {
+  max-inline-size: 100%;
+  block-size: auto;
 }
 
 .brand-symbol {
@@ -63,10 +100,11 @@
   gap: .45rem;
 }
 
-/* Functional Glass is reserved for navigation and interactive chrome. */
-.site-header[data-glaze-material="functional-glass"] {
-  backdrop-filter: blur(var(--glaze-glass-functional-blur)) saturate(var(--glaze-glass-functional-saturation));
-  -webkit-backdrop-filter: blur(var(--glaze-glass-functional-blur)) saturate(var(--glaze-glass-functional-saturation));
+/* V1.6 Soft Glaze is reserved for persistent navigation and interactive chrome. */
+.site-header[data-glaze-material-level="soft-glaze"] {
+  background-color: color-mix(in srgb, var(--surface) calc(var(--glaze-effective-opacity) * 100%), transparent);
+  backdrop-filter: blur(var(--glaze-effective-blur)) saturate(var(--glaze-glass-functional-saturation));
+  -webkit-backdrop-filter: blur(var(--glaze-effective-blur)) saturate(var(--glaze-glass-functional-saturation));
 }
 
 /* Operational content remains Solid/Raised; glass is not a universal card treatment. */
@@ -93,7 +131,7 @@
   border-radius: var(--glaze-shape-standard);
 }
 
-/* Glaze controls use practical 44px minimum targets on every viewport. */
+/* V1.6 controls use a 48px minimum target; Touch Assistance raises it to 56px. */
 .nav-link,
 .theme-toggle,
 .link-button,
@@ -183,6 +221,15 @@ textarea::placeholder {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  :root {
+    --glaze-motion-scale: 0;
+    --glaze-motion-effects-fast: 0ms;
+    --glaze-motion-effects-standard: 0ms;
+    --glaze-motion-spatial-fast: 0ms;
+    --glaze-motion-spatial-standard: 0ms;
+    --glaze-motion-spatial-emphasized: 0ms;
+  }
+
   *, *::before, *::after {
     scroll-behavior: auto !important;
     animation-duration: .01ms !important;
@@ -201,7 +248,7 @@ textarea::placeholder {
 }
 
 /* Preserve hierarchy when glass effects are unavailable instead of reducing readability. */
-@supports not (backdrop-filter: blur(1px)) {
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
   .site-header {
     background: var(--surface-strong);
     backdrop-filter: none;
@@ -210,6 +257,11 @@ textarea::placeholder {
 }
 
 @media (prefers-reduced-transparency: reduce) {
+  :root {
+    --glaze-effective-opacity: 1;
+    --glaze-effective-blur: 0px;
+  }
+
   .site-header {
     background: var(--surface-strong);
     backdrop-filter: none;
@@ -338,6 +390,26 @@ textarea::placeholder {
 }
 
 @media (max-width: 680px) {
+  .container {
+    width: min(100% - 2rem, 1180px);
+    padding-inline: max(0px, env(safe-area-inset-left)) max(0px, env(safe-area-inset-right));
+  }
+
+  .site-header-inner {
+    padding-inline: max(0px, env(safe-area-inset-left)) max(0px, env(safe-area-inset-right));
+  }
+
+  .glaze-navigation-capsule {
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .glaze-navigation-capsule::-webkit-scrollbar {
+    display: none;
+  }
+
   .brand-lockup {
     gap: .3rem;
   }

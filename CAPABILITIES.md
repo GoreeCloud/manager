@@ -43,7 +43,7 @@ A bounded resilience-status integration exists in source. Target-environment rec
 
 ### Glaze UI
 
-Current implemented source mapping is 1.3.0. Current Stable consumer target is 1.6.0. Substantive migration, rendered review, accessibility acceptance, representative-target validation, rollback, and production acceptance remain pending.
+Current repository source is mapped to Glaze UI 1.6.0. This is source adoption only: rendered review, keyboard/200% text/accessibility acceptance, representative performance, rollback, deployed-equivalence, central consumer-registry acceptance, and production acceptance remain pending.
 
 ### GoreeCloud Mesh
 
@@ -94,7 +94,7 @@ Manager exposes health/readiness endpoints and integration-specific monitoring s
 
 ## Current Limitations
 
-Manager remains Development and nonconformant. Production publication, production write authority, current Platform-System runtime acceptance, Glaze UI 1.6.0 migration, deployment/rollback verification, release approval, and Stable qualification remain open.
+Manager remains Development and nonconformant. Production publication, production write authority, current Platform-System runtime acceptance, Glaze UI 1.6.0 consumer acceptance, deployment/rollback verification, release approval, and Stable qualification remain open.
 
 ## Capability Validation
 
