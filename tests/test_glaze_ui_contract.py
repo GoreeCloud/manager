@@ -107,11 +107,13 @@ class GlazeUiContractTests(SimpleTestCase):
         self.assertIn('role="alert"', login)
         self.assertNotIn("role=\"switch\"", login)
 
-    def test_glaze_13_documentation_pins_stable_source_and_material_boundary(self):
+    def test_glaze_documentation_preserves_13_mapping_and_current_16_authority(self):
         doc = self._read(GLAZE_DOC)
 
-        self.assertIn("Glaze UI 1.3.0 Stable", doc)
-        self.assertIn("0cd084d9c888a9697cbd9fdd2c4d2bd91286c56c", doc)
+        self.assertIn("implemented source mapping is **Glaze UI 1.3.0**", doc)
+        self.assertIn("current shared Stable consumer target is **Glaze UI 1.6.0**", doc)
+        self.assertIn("a7180679ea851389e0f3004515f9a25f420e716d", doc)
+        self.assertIn("migration-required", doc)
         self.assertIn("Functional Glass", doc)
         self.assertIn("Solid/Raised", doc)
         self.assertIn("effects motion", doc)
