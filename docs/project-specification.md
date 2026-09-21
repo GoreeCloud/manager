@@ -1,17 +1,22 @@
 # GoreeCloud — Project Specification — Manager — Repository Implementation Companion
 
+## Current Authority Note — September 21, 2026
+
+The canonical repository is `GoreeCloud/manager`. Manager's current platform declaration targets Platform Contract 0.4 with exactly nine Integral Platform Systems; GoreeCloud Sync remains separately governed. The implemented presentation source mapping remains Glaze UI 1.3.0, while current shared Stable Glaze UI authority is 1.6.0. Older repository-identity, eight-system Platform Contract, or 1.3.0-as-current-Stable wording retained in historical implementation discussion does not override these current authority boundaries. Manager remains Development/nonconformant until required migrations and acceptance gates are verified.
+
+
 ## Document Metadata
 
 - Document Owner: LaDamian Goree
 - Version: v0.1
 - Status: Draft
 - Created: August 11, 2026
-- Last Updated: August 15, 2026
+- Last Updated: September 21, 2026
 - Classification: Internal
 - Document Type: Source-Controlled Software Project Specification Companion
 - Project Name: GoreeCloud Manager
 - Project Status: In Development — Source and Disposable Readiness Validation Established; Target-Environment Production Readiness Evidence Outstanding
-- Repository: GoreeCloud/goreecloud-manager
+- Repository: GoreeCloud/manager
 - Development Model: Original GoreeCloud-owned software development
 - Initial Deployment Model: Docker and Docker Compose
 - Initial Production Placement: Not approved; development and validation first
