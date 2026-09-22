@@ -22,6 +22,7 @@ GoreeCloud Manager currently provides a Development-stage administration and ope
 - Read-only GoreeCloud Tasks integration.
 - Bounded Privacy Shield status presentation.
 - Bounded Everkeep resilience-status presentation.
+- Source-level GoreeCloud Policy v1 evaluation-request construction and decision-evidence validation.
 - Source-level privacy-minimized GoreeCloud Observability v1 signal construction.
 
 ## Platform Integrations
@@ -56,7 +57,7 @@ Manager currently relies on its local Django authentication/session foundation. 
 
 ### GoreeCloud Policy
 
-No accepted current Policy runtime contract or Manager-specific decision/evidence integration is established.
+Manager now has source-validated helpers for the authoritative Policy v1 evaluation-request and decision contracts, pinned to the accepted Policy source revision. The source adapter constructs privacy-minimized request data, validates exact decision evidence and optional request/decision provenance, and deliberately provides no Policy transport or enforcement authority. Live authenticated decision exchange, distribution, freshness/expiry semantics, enforcement coordination, target-environment validation, and production acceptance remain pending.
 
 ### GoreeCloud Observability
 
@@ -91,7 +92,7 @@ Current source includes keyboard focus, skip-link, reduced-motion, reduced-trans
 
 ## Automation and API Capabilities
 
-Manager exposes health/readiness endpoints and integration-specific monitoring surfaces, and can construct Observability v1 operational-signal payloads from Manager-owned evidence. No live Observability transport is claimed. Automation must not convert status evidence into unapproved operational mutation authority.
+Manager exposes health/readiness endpoints and integration-specific monitoring surfaces, can construct Policy v1 evaluation-request data and validate Policy decision evidence without enforcing it, and can construct Observability v1 operational-signal payloads from Manager-owned evidence. No live Policy or Observability transport is claimed. Automation must not convert Policy decision evidence, status evidence, or source-contract validation into unapproved operational mutation authority.
 
 ## Current Limitations
 

@@ -12,11 +12,20 @@ Google Drive changelog/roadmap copies are not authoritative under the GoreeCloud
 
 ## 2026-09-22
 
-### Repository feature/changelog governance migration
+### Policy v1 source contract adoption
+
+- Added a pure Manager-side GoreeCloud Policy v1 evaluation-request builder and decision-evidence validator pinned to Policy source revision `46071886da37a6566b69cc923005eef64cce2bcc`.
+- Added recursive context minimization, exact decision-field and vocabulary validation, timezone-aware evaluation timestamps, and optional request/decision provenance binding.
+- Added focused tests and repository-local integration documentation.
+- Changed Manager's Policy Platform Contract result from `applicable-blocked` to `applicable-migration-required` while preserving live caller identity, authenticated decision exchange, distribution, freshness/expiry, enforcement coordination, obligations handling, target-environment, and production gates.
+- A validated Policy `allow` value remains decision evidence only and does not independently authorize Manager execution.
+
+### Repository feature/changelog governance migration — PR #104
 
 - Replaced the retired `FEATURE-ROADMAP.md` repository control with the mandatory `IMPLEMENTED-FEATURES.md`, `PLANNED-FEATURES.md`, and `CHANGELOGS.md` records.
 - Migrated the meaningful obligations from both the repository roadmap and the former Drive-side Manager feature roadmap, including Glaze UI downstream acceptance, nine-system integration, Android signing/device acceptance, branch protection, production evidence, client lifecycle, planned MCP/tool gateway work, and production/Stable qualification.
 - Updated repository-baseline validation so the three authoritative records are mandatory and the legacy roadmap is rejected if reintroduced.
+- Exact candidate `9471818a813e71678080d607a750e6129f21f403` passed all seven applicable pull-request workflow families before merge; authoritative merge commit is `7431f521cb4c3448d10f35cfb2cb046e63139c69`.
 - This governance migration changes feature/changelog authority and repository controls only; it does not advance production, release, or Stable status.
 
 ### Observability v1 source contract adoption — PR #102
