@@ -12,6 +12,13 @@ Google Drive changelog/roadmap copies are not authoritative under the GoreeCloud
 
 ## 2026-09-22
 
+### Mesh evidence-envelope v1 source adoption
+
+- Added a bounded Manager-side validator for current Mesh-authored coordination/governance evidence envelopes pinned to corrected Mesh source revision `6bd0678faf94cbadcaaac7f2c31aa72ecca1b372`.
+- Validates canonical `GoreeCloud/mesh` producer provenance, exact envelope fields, authority boundaries, subject shape, timestamp ordering/freshness, data class, minimization flags, and optional SHA-256 payload digest while preserving producer-defined outcomes.
+- Restricts this increment to Mesh-authored evidence; evidence from Identity, Wardveil Security, Privacy Shield, Everkeep, and Glaze UI remains subject to separately verified producer contracts.
+- Moves Manager's Mesh Platform Contract source state from blocked to migration-required while preserving live connectivity, discovery, Identity-backed authentication, evidence delivery/refresh, target-environment, production, release, and Stable gates.
+
 ### Policy v1 source contract adoption
 
 - Added a pure Manager-side GoreeCloud Policy v1 evaluation-request builder and decision-evidence validator pinned to Policy source revision `46071886da37a6566b69cc923005eef64cce2bcc`.

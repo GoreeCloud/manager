@@ -22,6 +22,7 @@ GoreeCloud Manager currently provides a Development-stage administration and ope
 - Read-only GoreeCloud Tasks integration.
 - Bounded Privacy Shield status presentation.
 - Bounded Everkeep resilience-status presentation.
+- Source-level Mesh v1 coordination/governance evidence-envelope validation.
 - Source-level GoreeCloud Policy v1 evaluation-request construction and decision-evidence validation.
 - Source-level privacy-minimized GoreeCloud Observability v1 signal construction.
 
@@ -49,7 +50,7 @@ Current repository source is mapped to Glaze UI 1.6.0. This is source adoption o
 
 ### GoreeCloud Mesh
 
-No accepted current Manager-to-Mesh runtime integration is established.
+Manager now has a source-validated consumer for current Mesh-authored coordination/governance evidence envelopes pinned to the corrected canonical Mesh source revision. It validates provenance, freshness, minimization, and authority-domain boundaries without reinterpreting producer outcomes. Live Mesh connectivity, discovery, Identity-backed authentication, evidence delivery/refresh, target-environment validation, and production acceptance remain pending.
 
 ### GoreeCloud Identity
 
@@ -92,7 +93,7 @@ Current source includes keyboard focus, skip-link, reduced-motion, reduced-trans
 
 ## Automation and API Capabilities
 
-Manager exposes health/readiness endpoints and integration-specific monitoring surfaces, can construct Policy v1 evaluation-request data and validate Policy decision evidence without enforcing it, and can construct Observability v1 operational-signal payloads from Manager-owned evidence. No live Policy or Observability transport is claimed. Automation must not convert Policy decision evidence, status evidence, or source-contract validation into unapproved operational mutation authority.
+Manager exposes health/readiness endpoints and integration-specific monitoring surfaces, can validate bounded Mesh-authored coordination/governance evidence without turning it into trust or mutation authority, can construct Policy v1 evaluation-request data and validate Policy decision evidence without enforcing it, and can construct Observability v1 operational-signal payloads from Manager-owned evidence. No live Mesh, Policy, or Observability transport is claimed. Automation must not convert producer evidence, Policy decision evidence, status evidence, or source-contract validation into unapproved operational mutation authority.
 
 ## Current Limitations
 
