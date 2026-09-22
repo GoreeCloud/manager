@@ -16,9 +16,9 @@ GoreeCloud Manager is the native administration and operational console for Gore
 
 ## Current implemented foundation
 
-The current main-line implementation provides an authenticated Django web application, process-liveness and database-aware readiness endpoints, read-only operational integrations, sanitized delegated-artifact integrations, a read-only GoreeCloud Tasks adapter, repository CI, container packaging, a repository-local Glaze UI 1.6.0 source presentation mapping with consumer acceptance still pending, a source-level GoreeCloud Policy v1 evaluation-request/decision-evidence adapter, and a source-level GoreeCloud Observability v1 operational-signal constructor.
+The current main-line implementation provides an authenticated Django web application, process-liveness and database-aware readiness endpoints, read-only operational integrations, sanitized delegated-artifact integrations, a read-only GoreeCloud Tasks adapter, repository CI, container packaging, a repository-local Glaze UI 1.6.0 source presentation mapping with consumer acceptance still pending, a source-level Mesh v1 coordination/governance evidence-envelope validator, a source-level GoreeCloud Policy v1 evaluation-request/decision-evidence adapter, and a source-level GoreeCloud Observability v1 operational-signal constructor.
 
-Current source includes bounded Privacy Shield and Everkeep status integrations, a Policy v1 source-contract adapter that does not call or enforce Policy, and a privacy-minimized Observability v1 producer-contract adapter. Wardveil Security, GoreeCloud Mesh, and GoreeCloud Identity remain blocked or migration-required until accepted contracts and runtime evidence exist. Policy live authenticated decision exchange, distribution, freshness/enforcement behavior, and production evidence remain migration-required. Observability live publication, collection, freshness/completeness acceptance, retention, and production evidence remain migration-required.
+Current source includes bounded Privacy Shield and Everkeep status integrations, a Mesh v1 source consumer restricted to Mesh-authored coordination/governance evidence, a Policy v1 source-contract adapter that does not call or enforce Policy, and a privacy-minimized Observability v1 producer-contract adapter. Wardveil Security and GoreeCloud Identity remain blocked or migration-required until accepted contracts and runtime evidence exist. Mesh live connectivity/authentication/evidence delivery, Policy live authenticated decision exchange/distribution/freshness/enforcement behavior, and Observability live publication/collection/freshness/completeness/retention remain migration-required.
 
 ## Authority boundaries
 
@@ -27,7 +27,7 @@ Current source includes bounded Privacy Shield and Everkeep status integrations,
 - Wardveil Security owns security and trust decisions.
 - Everkeep owns continuity and recovery assurance.
 - GoreeCloud Identity owns identity, authentication, authorization, and service credentials.
-- GoreeCloud Mesh owns private connectivity and bounded platform coordination.
+- GoreeCloud Mesh owns private connectivity and bounded platform coordination. A structurally valid Mesh evidence envelope remains producer evidence and does not independently establish Manager trust or execution authority.
 - GoreeCloud Policy owns shared policy representation and decision coordination. A validated Policy `allow` value is decision evidence only and does not independently authorize Manager execution.
 - GoreeCloud Observability owns shared operational telemetry and evidence correlation.
 - Glaze UI owns shared presentation and interaction requirements.
