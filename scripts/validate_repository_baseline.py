@@ -7,13 +7,18 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 BASELINE_WORKFLOW = ".github/workflows/repository-baseline.yml"
-ROADMAP = "FEATURE-ROADMAP.md"
+LEGACY_FEATURE_ROADMAP = "FEATURE-ROADMAP.md"
+FEATURE_RECORDS = (
+    "IMPLEMENTED-FEATURES.md",
+    "PLANNED-FEATURES.md",
+    "CHANGELOGS.md",
+)
 
 REQUIRED_ROOT_FILES = (
     "README.md",
     "SPECIFICATIONS.md",
     "FEATURES.md",
-    "FEATURE-ROADMAP.md",
+    *FEATURE_RECORDS,
     "BENEFITS.md",
     "COMPETITIVE-OBJECTIVES.md",
     "BRANDING.md",
@@ -55,6 +60,25 @@ def validate_repository_baseline(root: Path = ROOT) -> list[str]:
             continue
         validated.append(relative)
 
+    legacy_roadmap = root / LEGACY_FEATURE_ROADMAP
+    if legacy_roadmap.exists():
+        problems.append(
+            "retired FEATURE-ROADMAP.md must not remain after migration to "
+            "IMPLEMENTED-FEATURES.md, PLANNED-FEATURES.md, and CHANGELOGS.md"
+        )
+
+    for relative in FEATURE_RECORDS:
+        record = root / relative
+        if not record.is_file():
+            continue
+        text = record.read_text(encoding="utf-8")
+        if "GoreeCloud/manager" not in text:
+            problems.append(f"{relative} does not identify canonical repository GoreeCloud/manager")
+        if "GoreeCloud/goreecloud-manager" in text:
+            problems.append(f"{relative} contains stale repository identity GoreeCloud/goreecloud-manager")
+        if "synchronized repository/Drive roadmap" in text or "corresponding Drive" in text:
+            problems.append(f"{relative} retains retired Drive roadmap synchronization authority")
+
     platform = root / "goreecloud.platform.yaml"
     if platform.is_file():
         text = platform.read_text(encoding="utf-8")
@@ -72,14 +96,6 @@ def validate_repository_baseline(root: Path = ROOT) -> list[str]:
             problems.append("platform contract contains stale repository identity GoreeCloud/goreecloud-manager")
         if "\n  sync:" in text:
             problems.append("GoreeCloud Sync must remain separately governed, not a tenth Integral Platform System")
-
-    roadmap = root / ROADMAP
-    if roadmap.is_file():
-        text = roadmap.read_text(encoding="utf-8")
-        if "**Canonical repository:** `GoreeCloud/manager`" not in text:
-            problems.append("feature roadmap does not identify canonical repository GoreeCloud/manager")
-        if "GoreeCloud/goreecloud-manager" in text:
-            problems.append("feature roadmap contains stale repository identity GoreeCloud/goreecloud-manager")
 
     branding = root / "BRANDING.md"
     if branding.is_file():
