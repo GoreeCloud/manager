@@ -45,12 +45,15 @@ platform_systems:
     notes: A sanitized read-only status contract and authenticated surface exist, but current-contract runtime acceptance and production acceptance remain independently gated.
 
   wardveil_security:
-    result: applicable-blocked
+    result: applicable-migration-required
     version: null
     evidence:
+      - integrations/wardveil.py
+      - tests/test_wardveil.py
+      - docs/integrations/wardveil.md
       - CAPABILITIES.md
       - SECURITY.md
-    notes: No accepted Wardveil Security runtime integration is declared by the current Manager source baseline.
+    notes: Manager now has a bounded source validator for the authoritative Wardveil Security State v2 contract pinned to Wardveil revision 9b41040ed48037451e660e860908316732384282. It validates evidence shape, protected/not-covered invariants, and protected-evidence freshness without authenticating producers or executing security controls. Live authenticated producer identity/delivery, evidence refresh, protection coverage, control execution, target-environment validation, and production acceptance remain outstanding.
 
   everkeep:
     result: applicable-migration-required
@@ -78,7 +81,7 @@ platform_systems:
       - tests/test_mesh.py
       - docs/integrations/mesh.md
       - CAPABILITIES.md
-    notes: Manager now validates current Mesh-authored coordination/governance evidence envelopes against corrected canonical Mesh revision 6bd0678faf94cbadcaaac7f2c31aa72ecca1b372. No live Mesh connectivity, service discovery, Identity-backed authentication, evidence delivery/refresh, target-environment evidence, or production acceptance is established.
+    notes: Manager now has a bounded source validator for current Mesh-authored coordination/governance evidence envelopes pinned to corrected Mesh revision 6bd0678faf94cbadcaaac7f2c31aa72ecca1b372. Live Mesh connectivity, service discovery, Identity-backed authentication, evidence delivery/refresh, target-environment validation, and production acceptance remain outstanding.
     capabilities: []
     dependencies: []
     published_events: []
@@ -100,7 +103,7 @@ platform_systems:
       - tests/test_policy.py
       - docs/integrations/policy.md
       - CAPABILITIES.md
-    notes: Manager now has bounded source helpers for the authoritative GoreeCloud Policy v1 evaluation-request and decision contracts pinned to Policy revision 46071886da37a6566b69cc923005eef64cce2bcc. No live authenticated decision exchange, policy distribution, freshness/expiry acceptance, enforcement coordination, Manager mutation authority, target-environment evidence, or production acceptance is established.
+    notes: Manager now has source-level request construction and decision-evidence validation for the authoritative GoreeCloud Policy v1 contracts pinned to Policy revision 46071886da37a6566b69cc923005eef64cce2bcc. No live authenticated decision exchange, policy distribution, freshness/expiry acceptance, enforcement coordination, target-environment evidence, or production acceptance is established.
 
   observability:
     result: applicable-migration-required
@@ -163,11 +166,17 @@ conformance:
     - SPECIFICATIONS.md
     - FEATURES.md
     - CAPABILITIES.md
+    - IMPLEMENTED-FEATURES.md
+    - PLANNED-FEATURES.md
+    - CHANGELOGS.md
     - docs/project-specification.md
     - docs/glaze-ui.md
     - core/urls.py
     - integrations/privacy_shield.py
     - integrations/everkeep.py
+    - integrations/wardveil.py
+    - tests/test_wardveil.py
+    - docs/integrations/wardveil.md
     - integrations/mesh.py
     - tests/test_mesh.py
     - docs/integrations/mesh.md
@@ -179,12 +188,12 @@ conformance:
     - docs/integrations/observability.md
   blockers:
     - GoreeCloud Manager is still in Development and is not approved for production publication.
-    - GoreeCloud Mesh v1 source evidence-envelope validation is adopted for Mesh-authored coordination/governance evidence, but live connectivity, discovery, Identity-backed authentication, evidence delivery/refresh, target-environment evidence, and production acceptance remain outstanding.
     - GoreeCloud Identity integration remains unaccepted.
-    - GoreeCloud Policy v1 source contracts are adopted for request construction and decision-evidence validation, but live caller identity, authenticated decision exchange, distribution, freshness/expiry behavior, enforcement coordination, target-environment evidence, and production acceptance remain outstanding.
+    - Wardveil Security State v2 source validation is adopted, but authenticated producer identity/delivery, evidence refresh, protection-coverage acceptance, security-control boundaries, target-environment validation, and production acceptance remain outstanding.
+    - GoreeCloud Mesh v1 source evidence validation is adopted, but live connectivity, discovery, Identity-backed authentication, evidence delivery/refresh, target-environment evidence, and production acceptance remain outstanding.
+    - GoreeCloud Policy v1 source contracts are adopted, but live caller identity, authenticated decision exchange, distribution, freshness/expiry, enforcement coordination, obligations handling, target-environment evidence, and production acceptance remain outstanding.
     - GoreeCloud Observability v1 source contract is adopted for Manager-owned signal construction, but live producer identity, authenticated publication/collection, freshness/completeness, retention, diagnostics/alerting, target-environment evidence, and production acceptance remain outstanding.
     - GoreeCloud Sync remains separately governed; Manager-to-Sync integration and acceptance remain outstanding where applicable.
-    - Wardveil Security runtime integration and acceptance remain outstanding.
     - Manager source maps to current Stable Glaze UI 1.6.0, but repository-local source validation does not establish rendered/accessibility/performance, rollback, deployed-equivalence, central consumer-registry, release, production, or product Stable acceptance.
     - Full target-environment backup, restore, publication, deployment/rollback, and production-readiness acceptance remain outstanding.
     - Release approval and Stable qualification remain outstanding.

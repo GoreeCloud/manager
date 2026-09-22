@@ -22,6 +22,7 @@ GoreeCloud Manager currently provides a Development-stage administration and ope
 - Read-only GoreeCloud Tasks integration.
 - Bounded Privacy Shield status presentation.
 - Bounded Everkeep resilience-status presentation.
+- Source-level Wardveil Security State v2 evidence validation.
 - Source-level Mesh v1 coordination/governance evidence-envelope validation.
 - Source-level GoreeCloud Policy v1 evaluation-request construction and decision-evidence validation.
 - Source-level privacy-minimized GoreeCloud Observability v1 signal construction.
@@ -38,7 +39,7 @@ A sanitized read-only status boundary exists in source. Current-contract runtime
 
 ### Wardveil Security
 
-No accepted current Wardveil runtime integration is established on authoritative main.
+Manager now has a bounded source validator for the authoritative Wardveil Security State v2 contract pinned to the accepted Wardveil source revision. It validates security-state evidence shape, coverage/evidence/authority invariants, and protected-evidence timing without authenticating the producer or executing security controls. Live authenticated delivery, producer identity, evidence refresh, control execution, target-environment coverage validation, and production acceptance remain pending.
 
 ### Everkeep
 
@@ -93,7 +94,7 @@ Current source includes keyboard focus, skip-link, reduced-motion, reduced-trans
 
 ## Automation and API Capabilities
 
-Manager exposes health/readiness endpoints and integration-specific monitoring surfaces, can validate bounded Mesh-authored coordination/governance evidence without turning it into trust or mutation authority, can construct Policy v1 evaluation-request data and validate Policy decision evidence without enforcing it, and can construct Observability v1 operational-signal payloads from Manager-owned evidence. No live Mesh, Policy, or Observability transport is claimed. Automation must not convert producer evidence, Policy decision evidence, status evidence, or source-contract validation into unapproved operational mutation authority.
+Manager exposes health/readiness endpoints and integration-specific monitoring surfaces, can validate bounded Wardveil security-state evidence without turning it into authorization or security-control authority, can validate bounded Mesh-authored coordination/governance evidence without turning it into trust or mutation authority, can construct Policy v1 evaluation-request data and validate Policy decision evidence without enforcing it, and can construct Observability v1 operational-signal payloads from Manager-owned evidence. No live Wardveil, Mesh, Policy, or Observability transport is claimed. Automation must not convert producer evidence, Policy decision evidence, status evidence, or source-contract validation into unapproved operational mutation authority.
 
 ## Current Limitations
 
