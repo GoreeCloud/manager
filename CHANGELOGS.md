@@ -12,6 +12,13 @@ Google Drive changelog/roadmap copies are not authoritative under the GoreeCloud
 
 ## 2026-09-22
 
+### Wardveil Security State v2 source adoption
+
+- Added a bounded Manager-side validator for the authoritative Wardveil Security State v2 contract pinned to Wardveil source revision `9b41040ed48037451e660e860908316732384282`.
+- Validates exact state/coverage/evidence/scope vocabularies, nested field boundaries, bounded identifiers/references, timezone-aware evidence validity, and Wardveil's protected/not-covered conditional invariants.
+- Fails closed when a protected claim is non-authoritative, uncovered, non-current, future-dated, missing an expiry, or expired; valid source data remains evidence only and does not grant Manager authorization or security-control authority.
+- Moves Manager's Wardveil Platform Contract source state from blocked to migration-required while preserving authenticated producer identity/delivery, evidence refresh, security-control execution, target-environment coverage, production, release, and Stable gates.
+
 ### Mesh evidence-envelope v1 source adoption
 
 - Added a bounded Manager-side validator for current Mesh-authored coordination/governance evidence envelopes pinned to corrected Mesh source revision `6bd0678faf94cbadcaaac7f2c31aa72ecca1b372`.
