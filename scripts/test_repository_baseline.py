@@ -8,6 +8,7 @@ import tempfile
 from pathlib import Path
 
 from validate_repository_baseline import (
+    LEGACY_FEATURE_ROADMAP,
     REQUIRED_REPOSITORY_CONTROLS,
     REQUIRED_ROOT_FILES,
     ROOT,
@@ -41,6 +42,18 @@ def main() -> None:
         copy_baseline(root)
         (root / "CAPABILITIES.md").unlink()
         expect_failure(root, "CAPABILITIES.md")
+
+    with tempfile.TemporaryDirectory() as temp:
+        root = Path(temp)
+        copy_baseline(root)
+        (root / "PLANNED-FEATURES.md").unlink()
+        expect_failure(root, "PLANNED-FEATURES.md")
+
+    with tempfile.TemporaryDirectory() as temp:
+        root = Path(temp)
+        copy_baseline(root)
+        (root / LEGACY_FEATURE_ROADMAP).write_text("legacy roadmap must stay retired", encoding="utf-8")
+        expect_failure(root, "retired FEATURE-ROADMAP.md")
 
     with tempfile.TemporaryDirectory() as temp:
         root = Path(temp)
