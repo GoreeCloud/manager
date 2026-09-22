@@ -22,6 +22,7 @@ GoreeCloud Manager currently provides a Development-stage administration and ope
 - Read-only GoreeCloud Tasks integration.
 - Bounded Privacy Shield status presentation.
 - Bounded Everkeep resilience-status presentation.
+- Source-level privacy-minimized GoreeCloud Observability v1 signal construction.
 
 ## Platform Integrations
 
@@ -59,7 +60,7 @@ No accepted current Policy runtime contract or Manager-specific decision/evidenc
 
 ### GoreeCloud Observability
 
-No accepted current Observability runtime contract or Manager-specific telemetry/evidence integration is established.
+Manager now has a source-validated, privacy-minimized producer adapter for the authoritative Observability v1 operational-signal contract, pinned to the accepted Observability source revision. It constructs contract-shaped evidence only; live authenticated publication, collection, freshness/completeness acceptance, retention, alerting, target-environment validation, and production acceptance remain pending.
 
 GoreeCloud Sync remains separately governed and is not a tenth Integral Platform System.
 
@@ -90,7 +91,7 @@ Current source includes keyboard focus, skip-link, reduced-motion, reduced-trans
 
 ## Automation and API Capabilities
 
-Manager exposes health/readiness endpoints and integration-specific monitoring surfaces. Automation must not convert status evidence into unapproved operational mutation authority.
+Manager exposes health/readiness endpoints and integration-specific monitoring surfaces, and can construct Observability v1 operational-signal payloads from Manager-owned evidence. No live Observability transport is claimed. Automation must not convert status evidence into unapproved operational mutation authority.
 
 ## Current Limitations
 

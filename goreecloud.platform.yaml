@@ -98,12 +98,14 @@ platform_systems:
     notes: No accepted GoreeCloud Policy runtime contract, decision exchange, distribution, enforcement-coordination integration, or Manager-specific acceptance is established.
 
   observability:
-    result: applicable-blocked
+    result: applicable-migration-required
     version: null
     evidence:
-      - SPECIFICATIONS.md
+      - integrations/observability.py
+      - tests/test_observability.py
+      - docs/integrations/observability.md
       - CAPABILITIES.md
-    notes: Manager exposes local health and integration signals, but no accepted GoreeCloud Observability runtime contract, telemetry/evidence integration, freshness/completeness acceptance, or production evidence is established.
+    notes: Manager now has a source-level, privacy-minimized producer adapter for the authoritative GoreeCloud Observability v1 operational-signal contract pinned to Observability revision a7f6a65f442d3e517baddbe7b6ce7c250d142c8c. No live authenticated publication, collection, freshness/completeness acceptance, retention, alerting, target-environment evidence, or production acceptance is established.
 
 health:
   health_endpoint: /healthz/
@@ -161,12 +163,15 @@ conformance:
     - core/urls.py
     - integrations/privacy_shield.py
     - integrations/everkeep.py
+    - integrations/observability.py
+    - tests/test_observability.py
+    - docs/integrations/observability.md
   blockers:
     - GoreeCloud Manager is still in Development and is not approved for production publication.
     - GoreeCloud Mesh integration remains unaccepted.
     - GoreeCloud Identity integration remains unaccepted.
     - GoreeCloud Policy integration remains blocked pending an accepted platform runtime contract and Manager-specific evidence.
-    - GoreeCloud Observability integration remains blocked pending an accepted platform runtime contract and Manager-specific evidence.
+    - GoreeCloud Observability v1 source contract is adopted for Manager-owned signal construction, but live producer identity, authenticated publication/collection, freshness/completeness, retention, diagnostics/alerting, target-environment evidence, and production acceptance remain outstanding.
     - GoreeCloud Sync remains separately governed; Manager-to-Sync integration and acceptance remain outstanding where applicable.
     - Wardveil Security runtime integration and acceptance remain outstanding.
     - Manager source maps to current Stable Glaze UI 1.6.0, but repository-local source validation does not establish rendered/accessibility/performance, rollback, deployed-equivalence, central consumer-registry, release, production, or product Stable acceptance.

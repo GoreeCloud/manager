@@ -16,9 +16,9 @@ GoreeCloud Manager is the native administration and operational console for Gore
 
 ## Current implemented foundation
 
-The current main-line implementation provides an authenticated Django web application, process-liveness and database-aware readiness endpoints, read-only operational integrations, sanitized delegated-artifact integrations, a read-only GoreeCloud Tasks adapter, repository CI, container packaging, and a repository-local Glaze UI 1.6.0 source presentation mapping with consumer acceptance still pending.
+The current main-line implementation provides an authenticated Django web application, process-liveness and database-aware readiness endpoints, read-only operational integrations, sanitized delegated-artifact integrations, a read-only GoreeCloud Tasks adapter, repository CI, container packaging, a repository-local Glaze UI 1.6.0 source presentation mapping with consumer acceptance still pending, and a source-level GoreeCloud Observability v1 operational-signal constructor.
 
-Current source includes bounded Privacy Shield and Everkeep status integrations. Wardveil Security, GoreeCloud Mesh, GoreeCloud Identity, GoreeCloud Policy, and GoreeCloud Observability remain blocked or migration-required until accepted contracts and runtime evidence exist.
+Current source includes bounded Privacy Shield and Everkeep status integrations plus a privacy-minimized Observability v1 producer-contract adapter. Wardveil Security, GoreeCloud Mesh, GoreeCloud Identity, and GoreeCloud Policy remain blocked or migration-required until accepted contracts and runtime evidence exist. Observability live publication, collection, freshness/completeness acceptance, retention, and production evidence remain migration-required.
 
 ## Authority boundaries
 
