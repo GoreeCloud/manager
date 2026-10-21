@@ -34,6 +34,7 @@ from PySide6.QtWidgets import (
     QTableWidgetItem,
     QHeaderView,
     QAbstractItemView,
+    QAbstractSpinBox,
     QVBoxLayout,
     QWidget,
 )
@@ -785,12 +786,16 @@ class SettingsDialog(QDialog):
         self.mode_combo.currentIndexChanged.connect(self._update_mode_ui)
 
         self.refresh_spin = QSpinBox()
+        self.refresh_spin.setButtonSymbols(QAbstractSpinBox.ButtonSymbols.NoButtons)
+        self.refresh_spin.setToolTip("Enter seconds; use Up/Down arrow keys to adjust. Set 0 for manual refresh.")
         self.refresh_spin.setRange(0, 3600)
         self.refresh_spin.setSuffix(" seconds")
         self.refresh_spin.setSpecialValueText("Manual only")
         self.refresh_spin.setValue(self.original.monitoring.auto_refresh_seconds)
 
         self.timeout_spin = QSpinBox()
+        self.timeout_spin.setButtonSymbols(QAbstractSpinBox.ButtonSymbols.NoButtons)
+        self.timeout_spin.setToolTip("Enter seconds; use Up/Down arrow keys to adjust.")
         self.timeout_spin.setRange(1, 60)
         self.timeout_spin.setSuffix(" seconds")
         self.timeout_spin.setValue(self.original.monitoring.ssh_timeout_seconds)
@@ -812,6 +817,8 @@ class SettingsDialog(QDialog):
         self.server_host = QLineEdit(self.original.server.host)
         self.server_host.setPlaceholderText("NetBird IP, hostname, or server address")
         self.server_port = QSpinBox()
+        self.server_port.setButtonSymbols(QAbstractSpinBox.ButtonSymbols.NoButtons)
+        self.server_port.setToolTip("Enter the OpenSSH TCP port; use Up/Down arrow keys to adjust.")
         self.server_port.setRange(1, 65535)
         self.server_port.setValue(self.original.server.port)
         self.server_user = QLineEdit(self.original.server.user)
@@ -1345,17 +1352,20 @@ class MainWindow(QMainWindow):
         self.container_table.setAlternatingRowColors(True)
         self.container_table.setSortingEnabled(True)
         self.container_table.verticalHeader().setVisible(False)
+        self.container_table.verticalHeader().setDefaultSectionSize(33)
+        self.container_table.setTextElideMode(Qt.TextElideMode.ElideRight)
         header = self.container_table.horizontalHeader()
         for col in range(7):
             header.setSectionResizeMode(col, QHeaderView.ResizeMode.Interactive)
         header.setSectionResizeMode(7, QHeaderView.ResizeMode.Stretch)
-        self.container_table.setColumnWidth(0, 190)
-        self.container_table.setColumnWidth(1, 190)
+        self.container_table.setColumnWidth(0, 245)
+        self.container_table.setColumnWidth(1, 210)
         self.container_table.setColumnWidth(2, 78)
         self.container_table.setColumnWidth(3, 88)
         self.container_table.setColumnWidth(4, 72)
         self.container_table.setColumnWidth(5, 145)
         self.container_table.setColumnWidth(6, 175)
+        self.container_table.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAsNeeded)
         self.container_table.setHorizontalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
         self.container_table.itemSelectionChanged.connect(self._update_container_details)
         outer.addWidget(self.container_table, 1)
@@ -1495,6 +1505,7 @@ class MainWindow(QMainWindow):
         self.peer_table.setAlternatingRowColors(True)
         self.peer_table.setSortingEnabled(True)
         self.peer_table.verticalHeader().setVisible(False)
+        self.peer_table.verticalHeader().setDefaultSectionSize(33)
         header = self.peer_table.horizontalHeader()
         header.setSectionResizeMode(0, QHeaderView.ResizeMode.Stretch)
         for col in range(1, 5):
