@@ -98,9 +98,6 @@ class ManagerWindow(MainWindow):
                 }.get(status, "muted")
                 status_item.setForeground(self._color(status_role))
 
-        if hasattr(self, "attention_label"):
-            role = "warning" if self.attention_label.text().startswith("Needs attention:") else "muted"
-            self.attention_label.setStyleSheet(f"color: {semantic_color(self.config.appearance, role, self.app)};")
 
     def _apply_container_filter(self):
         super()._apply_container_filter()

@@ -83,6 +83,24 @@ class DesktopClientStabilityContractTests(TestCase):
         self.assertNotIn('from .ui import run', package_entry)
         self.assertNotIn('from goreecloud_manager.ui import run', source_entry)
 
+    def test_desktop_overview_visual_structure_is_scrollable_and_theme_aware(self):
+        source = (PACKAGE_ROOT / "ui.py").read_text(encoding="utf-8")
+        theme = (PACKAGE_ROOT / "theme.py").read_text(encoding="utf-8")
+        app = (PACKAGE_ROOT / "application.py").read_text(encoding="utf-8")
+        overview = source.split("    def _build_overview_tab(self)", 1)[1].split("    def _summary_card(", 1)[0]
+        self.assertIn("tab = QScrollArea()", overview)
+        self.assertIn("tab.setWidget(content)", overview)
+        self.assertIn("self.operational_card.setMinimumHeight(174)", overview)
+        self.assertIn("self.details_card.setMinimumHeight(155)", overview)
+        self.assertIn("self.service_layout.addWidget(body)", source)
+        self.assertNotIn("self.scroll.setWidget(body)", source)
+        self.assertIn('self.attention_label.setProperty("state", "active" if alerts else "clear")', source)
+        self.assertIn('QLabel#attentionLabel[state="active"]', theme)
+        self.assertIn('QLabel#attentionLabel[state="clear"]', theme)
+        self.assertNotIn("self.attention_label.setStyleSheet(", app)
+        self.assertIn('self.refresh_button.setShortcut("Ctrl+R")', source)
+        self.assertIn("self.nav_tabs.tabBar().setDrawBase(False)", source)
+
     def test_config_recovery_is_integrated_with_startup_and_settings_writes(self):
         application = (PACKAGE_ROOT / "application.py").read_text(encoding="utf-8")
         recovery = (PACKAGE_ROOT / "recovery.py").read_text(encoding="utf-8")

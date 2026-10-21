@@ -1090,6 +1090,8 @@ class MainWindow(QMainWindow):
         self.refresh_button = QPushButton("Refresh")
         self.refresh_button.setProperty("class", "secondary")
         self.refresh_button.clicked.connect(self.refresh_all)
+        self.refresh_button.setShortcut("Ctrl+R")
+        self.refresh_button.setToolTip("Refresh all infrastructure checks (Ctrl+R)")
         header.addWidget(self.refresh_button)
         shell.addLayout(header)
 
@@ -1112,11 +1114,14 @@ class MainWindow(QMainWindow):
         self.source_badge = QLabel("LOCAL")
         self.source_badge.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.source_badge.setObjectName("sourceBadgeLocal")
+        self.source_badge.setAccessibleName("Metrics source connection status")
         source_layout.addWidget(self.source_badge)
         shell.addWidget(source_card)
 
         self.nav_tabs = QTabWidget()
         self.nav_tabs.setDocumentMode(True)
+        self.nav_tabs.tabBar().setDrawBase(False)
+        self.nav_tabs.tabBar().setExpanding(False)
         self.nav_tabs.addTab(self._build_overview_tab(), "Overview")
         self.nav_tabs.addTab(self._build_containers_tab(), "Containers")
         self.nav_tabs.addTab(self._build_network_tab(), "Network")
@@ -1146,9 +1151,15 @@ class MainWindow(QMainWindow):
         self.refresh_all()
 
     def _build_overview_tab(self) -> QWidget:
-        tab = QWidget()
-        tab.setObjectName("scrollBody")
-        outer = QVBoxLayout(tab)
+        # Let the whole overview scroll, rather than compressing critical status
+        # and inventory panels when the window or display is short.
+        tab = QScrollArea()
+        tab.setWidgetResizable(True)
+        tab.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+        tab.viewport().setObjectName("scrollViewport")
+        content = QWidget()
+        content.setObjectName("scrollBody")
+        outer = QVBoxLayout(content)
         outer.setContentsMargins(4, 12, 4, 4)
         outer.setSpacing(14)
 
@@ -1166,6 +1177,7 @@ class MainWindow(QMainWindow):
 
         self.details_card = QFrame()
         self.details_card.setObjectName("detailsCard")
+        self.details_card.setMinimumHeight(155)
         details_layout = QVBoxLayout(self.details_card)
         details_layout.setContentsMargins(16, 13, 16, 14)
         details_layout.setSpacing(10)
@@ -1201,6 +1213,7 @@ class MainWindow(QMainWindow):
 
         self.operational_card = QFrame()
         self.operational_card.setObjectName("detailsCard")
+        self.operational_card.setMinimumHeight(174)
         operational_layout = QVBoxLayout(self.operational_card)
         operational_layout.setContentsMargins(16, 13, 16, 14)
         operational_layout.setSpacing(10)
@@ -1225,10 +1238,12 @@ class MainWindow(QMainWindow):
             operational_grid.setColumnStretch(index, 1)
         operational_layout.addLayout(operational_grid)
         self.attention_label = QLabel("Collecting operational status…")
-        self.attention_label.setProperty("class", "muted")
+        self.attention_label.setObjectName("attentionLabel")
+        self.attention_label.setProperty("state", "clear")
         self.attention_label.setWordWrap(True)
         operational_layout.addWidget(self.attention_label)
-        outer.addWidget(self.operational_card)
+        # Prioritize actionable infrastructure status over the raw system inventory.
+        outer.insertWidget(1, self.operational_card)
 
         services_header = QHBoxLayout()
         services_title = QLabel("Services")
@@ -1240,12 +1255,14 @@ class MainWindow(QMainWindow):
         services_header.addWidget(self.services_summary)
         outer.addLayout(services_header)
 
-        self.scroll = QScrollArea()
-        self.scroll.setWidgetResizable(True)
-        self.scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
-        self.scroll.viewport().setObjectName("scrollViewport")
-        outer.addWidget(self.scroll, 1)
+        self.service_container = QWidget()
+        self.service_container.setObjectName("scrollBody")
+        self.service_layout = QVBoxLayout(self.service_container)
+        self.service_layout.setContentsMargins(0, 0, 0, 0)
+        outer.addWidget(self.service_container)
         self.rebuild_service_cards()
+        outer.addStretch(1)
+        tab.setWidget(content)
         return tab
 
     def _summary_card(self, title: str):
@@ -1717,6 +1734,11 @@ class MainWindow(QMainWindow):
             self.timer.start(seconds * 1000)
 
     def rebuild_service_cards(self):
+        # Service cards participate in the single overview scroll surface.
+        old_body = getattr(self, "_service_body", None)
+        if old_body is not None:
+            self.service_layout.removeWidget(old_body)
+            old_body.deleteLater()
         body = QWidget()
         body.setObjectName("scrollBody")
         grid = QGridLayout(body)
@@ -1727,6 +1749,7 @@ class MainWindow(QMainWindow):
         if not enabled_services:
             empty = QFrame()
             empty.setObjectName("emptyState")
+            empty.setMinimumHeight(145)
             empty_layout = QVBoxLayout(empty)
             empty_layout.setContentsMargins(24, 24, 24, 24)
             empty_layout.setSpacing(8)
@@ -1754,7 +1777,8 @@ class MainWindow(QMainWindow):
             grid.addItem(QSpacerItem(0, 0, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding), (len(enabled_services) + 1) // 2, 0)
         grid.setColumnStretch(0, 1)
         grid.setColumnStretch(1, 1)
-        self.scroll.setWidget(body)
+        self.service_layout.addWidget(body)
+        self._service_body = body
 
     def refresh_auto(self):
         # Overview auto-refreshes stay lightweight. Docker stats/inspect can be
@@ -2123,10 +2147,11 @@ class MainWindow(QMainWindow):
 
         if alerts:
             self.attention_label.setText("Needs attention: " + " • ".join(alerts))
-            self.attention_label.setStyleSheet("color: #fbbf24;")
         else:
             self.attention_label.setText("No active infrastructure alerts detected by the current read-only checks.")
-            self.attention_label.setStyleSheet("color: #91a4c2;")
+        self.attention_label.setProperty("state", "active" if alerts else "clear")
+        self.attention_label.style().unpolish(self.attention_label)
+        self.attention_label.style().polish(self.attention_label)
 
     def _set_badge(self, widget: QLabel, text: str, class_name: str):
         widget.setText(text)

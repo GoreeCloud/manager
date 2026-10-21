@@ -164,14 +164,15 @@ QLabel#sourceBadgeError {{ color: {t.danger}; background: {t.danger_soft}; borde
 QFrame.card, QFrame#sourceCard, QFrame.settingsCard {{
     background: {t.surface}; border: 1px solid {t.border}; border-radius: 14px;
 }}
-QFrame.card:hover {{ border: 1px solid {t.primary_border}; }}
-QFrame#sourceCard {{ background: {t.surface_alt}; }}
+/* Read-only metric and information cards must not imply clickability on hover. */
+QFrame.card:hover {{ border: 1px solid {t.border_strong}; }}
+QFrame#sourceCard {{ background: {t.surface_alt}; border-left: 3px solid {t.primary_border}; }}
 QLabel.metricLabel {{ color: {t.muted}; font-size: 12px; }}
 QLabel.metricValue {{ color: {t.text_strong}; font-size: 22px; font-weight: 700; }}
 QLabel.metricDetail {{ color: {t.muted}; font-size: 11px; }}
-QLabel.metricStatusNormal {{ color: {t.success}; font-size: 11px; font-weight: 700; }}
-QLabel.metricStatusWarning {{ color: {t.warning}; font-size: 11px; font-weight: 700; }}
-QLabel.metricStatusCritical {{ color: {t.danger}; font-size: 11px; font-weight: 700; }}
+QLabel.metricStatusNormal {{ color: {t.success}; background: {t.success_soft}; border-radius: 7px; padding: 3px 7px; font-size: 11px; font-weight: 700; }}
+QLabel.metricStatusWarning {{ color: {t.warning}; background: {t.warning_soft}; border-radius: 7px; padding: 3px 7px; font-size: 11px; font-weight: 700; }}
+QLabel.metricStatusCritical {{ color: {t.danger}; background: {t.danger_soft}; border-radius: 7px; padding: 3px 7px; font-size: 11px; font-weight: 700; }}
 QLabel.infoLabel {{ color: {t.subtle}; font-size: 11px; }}
 QLabel.infoValue {{ color: {t.text_strong}; font-size: 13px; font-weight: 600; }}
 QFrame#detailsCard {{ background: {t.surface_alt}; border: 1px solid {t.border}; border-radius: 14px; }}
@@ -186,6 +187,7 @@ QPushButton {{
     padding: 8px 12px; font-weight: 600;
 }}
 QPushButton:hover {{ background: {t.primary_hover}; }}
+QPushButton:focus {{ border: 2px solid {t.primary_border}; }}
 QPushButton:disabled {{ background: {t.neutral_soft}; color: {t.muted}; }}
 QPushButton.secondary {{ background: {t.surface_muted}; border: 1px solid {t.border_strong}; color: {t.text}; }}
 QPushButton.secondary:hover {{ background: {t.primary_soft}; }}
@@ -193,6 +195,8 @@ QPushButton.danger {{ background: {t.danger_soft}; border: 1px solid {t.danger_b
 QPushButton.danger:hover {{ background: {t.danger_soft}; }}
 QFrame#emptyState {{ background: {t.surface_alt}; border: 1px dashed {t.border_strong}; border-radius: 14px; }}
 QLabel#emptyTitle {{ color: {t.text_strong}; font-size: 16px; font-weight: 700; }}
+QLabel#attentionLabel[state="active"] {{ color: {t.warning}; background: {t.warning_soft}; border: 1px solid {t.warning_border}; border-radius: 9px; padding: 10px 12px; }}
+QLabel#attentionLabel[state="clear"] {{ color: {t.muted}; background: transparent; border: 1px solid transparent; border-radius: 9px; padding: 10px 12px; }}
 QProgressBar {{
     background: {t.surface_muted}; border: 1px solid {t.border}; border-radius: 5px;
     height: 10px; text-align: center;
@@ -208,11 +212,14 @@ QComboBox QAbstractItemView {{
     selection-background-color: {t.selection}; selection-color: #ffffff;
 }}
 QCheckBox {{ color: {t.text}; spacing: 7px; }}
-QTabWidget::pane {{ border: 1px solid {t.border}; border-radius: 10px; top: -1px; }}
+QTabWidget::pane {{ border: none; top: 0; }}
 QTabBar::tab {{
-    background: {t.surface_muted}; color: {t.muted}; border: 1px solid {t.border}; padding: 8px 16px;
+    background: {t.surface_alt}; color: {t.muted}; border: 1px solid {t.border};
+    border-radius: 10px; padding: 10px 18px; margin-right: 8px;
 }}
-QTabBar::tab:selected {{ background: {t.primary_soft}; color: {t.text_strong}; border-bottom-color: {t.primary_soft}; }}
+QTabBar::tab:selected {{ background: {t.primary_soft}; color: {t.text_strong}; border-color: {t.primary_border}; font-weight: 700; }}
+QTabBar::tab:hover:!selected {{ background: {t.surface}; color: {t.text_strong}; border-color: {t.border_strong}; }}
+QTabBar::tab:focus {{ border: 2px solid {t.primary_border}; }}
 QScrollArea {{ border: none; background: {t.canvas}; }}
 QScrollBar:vertical {{ background: {t.surface_alt}; width: 11px; margin: 0; border: none; }}
 QScrollBar::handle:vertical {{ background: {t.scrollbar}; min-height: 32px; border-radius: 5px; }}
