@@ -34,6 +34,7 @@ from PySide6.QtWidgets import (
     QTableWidgetItem,
     QHeaderView,
     QAbstractItemView,
+    QAbstractSpinBox,
     QVBoxLayout,
     QWidget,
 )
@@ -785,12 +786,16 @@ class SettingsDialog(QDialog):
         self.mode_combo.currentIndexChanged.connect(self._update_mode_ui)
 
         self.refresh_spin = QSpinBox()
+        self.refresh_spin.setButtonSymbols(QAbstractSpinBox.ButtonSymbols.NoButtons)
+        self.refresh_spin.setToolTip("Enter seconds; use Up/Down arrow keys to adjust. Set 0 for manual refresh.")
         self.refresh_spin.setRange(0, 3600)
         self.refresh_spin.setSuffix(" seconds")
         self.refresh_spin.setSpecialValueText("Manual only")
         self.refresh_spin.setValue(self.original.monitoring.auto_refresh_seconds)
 
         self.timeout_spin = QSpinBox()
+        self.timeout_spin.setButtonSymbols(QAbstractSpinBox.ButtonSymbols.NoButtons)
+        self.timeout_spin.setToolTip("Enter seconds; use Up/Down arrow keys to adjust.")
         self.timeout_spin.setRange(1, 60)
         self.timeout_spin.setSuffix(" seconds")
         self.timeout_spin.setValue(self.original.monitoring.ssh_timeout_seconds)
@@ -812,6 +817,8 @@ class SettingsDialog(QDialog):
         self.server_host = QLineEdit(self.original.server.host)
         self.server_host.setPlaceholderText("NetBird IP, hostname, or server address")
         self.server_port = QSpinBox()
+        self.server_port.setButtonSymbols(QAbstractSpinBox.ButtonSymbols.NoButtons)
+        self.server_port.setToolTip("Enter the OpenSSH TCP port; use Up/Down arrow keys to adjust.")
         self.server_port.setRange(1, 65535)
         self.server_port.setValue(self.original.server.port)
         self.server_user = QLineEdit(self.original.server.user)
@@ -1345,17 +1352,20 @@ class MainWindow(QMainWindow):
         self.container_table.setAlternatingRowColors(True)
         self.container_table.setSortingEnabled(True)
         self.container_table.verticalHeader().setVisible(False)
+        self.container_table.verticalHeader().setDefaultSectionSize(33)
+        self.container_table.setTextElideMode(Qt.TextElideMode.ElideRight)
         header = self.container_table.horizontalHeader()
         for col in range(7):
             header.setSectionResizeMode(col, QHeaderView.ResizeMode.Interactive)
         header.setSectionResizeMode(7, QHeaderView.ResizeMode.Stretch)
-        self.container_table.setColumnWidth(0, 190)
-        self.container_table.setColumnWidth(1, 190)
+        self.container_table.setColumnWidth(0, 245)
+        self.container_table.setColumnWidth(1, 210)
         self.container_table.setColumnWidth(2, 78)
         self.container_table.setColumnWidth(3, 88)
         self.container_table.setColumnWidth(4, 72)
         self.container_table.setColumnWidth(5, 145)
         self.container_table.setColumnWidth(6, 175)
+        self.container_table.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAsNeeded)
         self.container_table.setHorizontalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
         self.container_table.itemSelectionChanged.connect(self._update_container_details)
         outer.addWidget(self.container_table, 1)
@@ -1495,6 +1505,7 @@ class MainWindow(QMainWindow):
         self.peer_table.setAlternatingRowColors(True)
         self.peer_table.setSortingEnabled(True)
         self.peer_table.verticalHeader().setVisible(False)
+        self.peer_table.verticalHeader().setDefaultSectionSize(33)
         header = self.peer_table.horizontalHeader()
         header.setSectionResizeMode(0, QHeaderView.ResizeMode.Stretch)
         for col in range(1, 5):
@@ -1523,16 +1534,17 @@ class MainWindow(QMainWindow):
                 continue
             if mode == "stopped" and state == "running":
                 continue
-            active_health_issue = state == "running" and health in {"unhealthy", "starting"}
+            active_health = health if state == "running" else ""
+            active_health_issue = active_health in {"unhealthy", "starting"}
             if mode == "attention" and not (active_health_issue or state in {"restarting", "dead"} or item.oom_killed):
                 continue
-            if mode == "healthy" and health != "healthy":
+            if mode == "healthy" and active_health != "healthy":
                 continue
-            if mode == "unhealthy" and health != "unhealthy":
+            if mode == "unhealthy" and active_health != "unhealthy":
                 continue
-            if mode == "starting" and health != "starting":
+            if mode == "starting" and active_health != "starting":
                 continue
-            if mode == "no_healthcheck" and health:
+            if mode == "no_healthcheck" and (state != "running" or active_health):
                 continue
             haystack = " ".join((item.name, item.image, item.state, item.health, item.ports, item.status, item.networks)).casefold()
             if query and query not in haystack:
@@ -2097,7 +2109,7 @@ class MainWindow(QMainWindow):
         elif docker.health_starting:
             self.status_docker.set_state(f"{docker.health_starting} STARTING", f"{docker.healthy} healthy", "statusBadgeWarn")
         else:
-            self.status_docker.set_state("HEALTHY", f"{docker.running} running • {docker.stopped} stopped", "statusBadgeGood")
+            self.status_docker.set_state("AVAILABLE", f"{docker.running} running • {docker.stopped} stopped", "statusBadgeGood")
 
         nb = self.current_netbird
         if nb is None:
@@ -2152,6 +2164,8 @@ class MainWindow(QMainWindow):
 
         if alerts:
             self.attention_label.setText("Needs attention: " + " • ".join(alerts))
+        elif health is None or docker is None or nb is None or self.system_check_pending or self.infrastructure_check_pending:
+            self.attention_label.setText("Checks are still in progress; infrastructure status may be incomplete.")
         else:
             self.attention_label.setText("No active infrastructure alerts detected by the current read-only checks.")
         self.attention_label.setProperty("state", "active" if alerts else "clear")

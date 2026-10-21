@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from pathlib import Path
 
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QGuiApplication
@@ -134,6 +135,8 @@ def semantic_color(preference: str, role: str, app: QGuiApplication | None = Non
 
 def stylesheet(preference: str, app: QGuiApplication | None = None) -> str:
     t = theme_tokens(preference, app)
+    appearance = resolve_appearance(preference, app)
+    dropdown_icon = (Path(__file__).resolve().parent.parent / "assets" / f"chevron-down-{appearance}.svg").as_posix()
     return f"""
 QMainWindow, QDialog, QWidget#root, QWidget#scrollBody, QWidget#scrollViewport,
 QWidget#settingsBody, QWidget#settingsViewport {{
@@ -206,7 +209,14 @@ QLineEdit, QComboBox, QSpinBox {{
     background: {t.surface_alt}; color: {t.text}; border: 1px solid {t.border_strong};
     border-radius: 8px; padding: 7px 9px; min-height: 20px;
 }}
-QLineEdit:focus, QComboBox:focus, QSpinBox:focus {{ border: 1px solid {t.primary_border}; }}
+QLineEdit:focus, QComboBox:focus, QSpinBox:focus {{ border: 2px solid {t.primary_border}; }}
+QComboBox {{ padding-right: 32px; }}
+QComboBox::drop-down {{
+    subcontrol-origin: padding; subcontrol-position: top right;
+    width: 27px; border: none; background: transparent;
+}}
+QComboBox::down-arrow {{ image: url("{dropdown_icon}"); width: 14px; height: 14px; }}
+QSpinBox {{ padding-right: 12px; }}
 QComboBox QAbstractItemView {{
     background: {t.surface}; color: {t.text}; border: 1px solid {t.border_strong};
     selection-background-color: {t.selection}; selection-color: #ffffff;
@@ -229,7 +239,7 @@ QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {{ background: tran
 QTableWidget {{
     background: {t.surface_alt}; color: {t.text}; border: 1px solid {t.border}; border-radius: 10px;
     gridline-color: {t.border}; alternate-background-color: {t.surface_muted};
-    selection-background-color: {t.selection}; selection-color: #ffffff;
+    selection-background-color: {t.primary_soft}; selection-color: {t.text_strong};
 }}
 QHeaderView::section {{
     background: {t.surface}; color: {t.text}; border: none; border-bottom: 1px solid {t.border_strong};

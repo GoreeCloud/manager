@@ -35,6 +35,7 @@ python3 -m PyInstaller \
   --name goreecloud-manager \
   --onedir \
   --collect-all PySide6 \
+  --add-data "${ROOT}/desktop-client/assets:assets" \
   --distpath "${ROOT}/build/pyinstaller-dist" \
   --workpath "${ROOT}/build/pyinstaller-work" \
   --specpath "${ROOT}/build" \
@@ -48,6 +49,12 @@ if [[ -z "${XCB_PLUGIN}" ]]; then
 fi
 
 cp -a "${PYI_ROOT}/." "${APP_ROOT}/"
+for APPEARANCE in light dark; do
+  if ! find "${APP_ROOT}" -type f -path "*/assets/chevron-down-${APPEARANCE}.svg" -print -quit | grep -q .; then
+    echo "Packaged native dropdown icon missing for ${APPEARANCE}." >&2
+    exit 1
+  fi
+done
 install -m 0644 "${ROOT}/desktop-client/assets/goreecloud-manager.svg" "${ICON_ROOT}/goreecloud-manager.svg"
 install -m 0644 "${ROOT}/LICENSE" "${DOC_ROOT}/LICENSE"
 install -m 0644 "${ROOT}/LICENSE-NOTICE.md" "${DOC_ROOT}/LICENSE-NOTICE.md"
