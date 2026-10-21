@@ -343,12 +343,16 @@ def _parse_docker(text: str) -> DockerOverview:
             )
         )
     containers.sort(key=lambda item: (item.state.lower() != "running", item.name.casefold()))
-    running = sum(1 for item in containers if item.state.lower() == "running")
-    healthy = sum(1 for item in containers if item.health.casefold() == "healthy")
-    unhealthy = sum(1 for item in containers if item.health.casefold() == "unhealthy")
-    health_starting = sum(1 for item in containers if item.health.casefold() == "starting")
+    # Docker can retain a final unhealthy result in State.Health for exited
+    # containers. Only running containers have actionable current health.
+    # Historical status remains available in the inventory and details.
+    active = [item for item in containers if item.state.casefold() == "running"]
+    running = len(active)
+    healthy = sum(1 for item in active if item.health.casefold() == "healthy")
+    unhealthy = sum(1 for item in active if item.health.casefold() == "unhealthy")
+    health_starting = sum(1 for item in active if item.health.casefold() == "starting")
     health_monitored = healthy + unhealthy + health_starting
-    no_healthcheck = max(0, len(containers) - health_monitored)
+    no_healthcheck = max(0, running - health_monitored)
     return DockerOverview(
         state="available",
         version=values.get("version", ""),
