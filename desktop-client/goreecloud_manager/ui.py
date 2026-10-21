@@ -1120,6 +1120,8 @@ class MainWindow(QMainWindow):
 
         self.nav_tabs = QTabWidget()
         self.nav_tabs.setDocumentMode(True)
+        self.nav_tabs.tabBar().setDrawBase(False)
+        self.nav_tabs.tabBar().setExpanding(False)
         self.nav_tabs.addTab(self._build_overview_tab(), "Overview")
         self.nav_tabs.addTab(self._build_containers_tab(), "Containers")
         self.nav_tabs.addTab(self._build_network_tab(), "Network")
