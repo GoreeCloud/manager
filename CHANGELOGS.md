@@ -10,6 +10,21 @@ This file records meaningful Manager implementation, governance, compatibility, 
 
 Google Drive changelog/roadmap copies are not authoritative under the GoreeCloud Repository Feature Tracking and Changelog Governance standard.
 
+## 2026-10-21
+
+### Native Linux desktop Glaze Overview and critical CA trust repair — PR #113
+
+- Refined read-only Linux desktop status hierarchy, one-surface Overview scrolling, Light/Dark semantic warnings, accessible refresh, and non-decorative navigation.
+- Updated locked server-side `certifi` to patched `2026.10.19` with a PyPI-verified wheel checksum after the October emSign CA compromise; preserved strict, fail-closed OSV vulnerability scanning.
+- PR #113 was merged as commit `021f5e5cc96324ffdf0ab563f947b04e41394b5e` after eight green workflow families. The native Linux workstation installation was verified at v0.2.9 with an actual read-only SSH connection, light/dark visual testing, and preserved private configuration; no production server deployment was performed.
+
+### Active Docker health accuracy — v0.2.10 source candidate
+
+- Separate live health monitoring from the historical last-known health of exited containers. Manager no longer calls old, stopped rollback containers active unhealthy workloads.
+- Keep historical health visible as `Last: …` inside the full Docker inventory; omit historical stale health from the Needs attention filter.
+- Add synthetic parser regression coverage and retain the operational state of all containers for inspection.
+- This source change must pass exact-head tests and packaging before merge or installation; it does not itself establish production or release readiness.
+
 ## 2026-09-22
 
 ### Wardveil Security State v2 source adoption
