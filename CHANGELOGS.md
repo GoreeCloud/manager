@@ -18,12 +18,22 @@ Google Drive changelog/roadmap copies are not authoritative under the GoreeCloud
 - Updated locked server-side `certifi` to patched `2026.10.19` with a PyPI-verified wheel checksum after the October emSign CA compromise; preserved strict, fail-closed OSV vulnerability scanning.
 - PR #113 was merged as commit `021f5e5cc96324ffdf0ab563f947b04e41394b5e` after eight green workflow families. The native Linux workstation installation was verified at v0.2.9 with an actual read-only SSH connection, light/dark visual testing, and preserved private configuration; no production server deployment was performed.
 
-### Active Docker health accuracy — v0.2.10 source candidate
+### Active Docker health accuracy — v0.2.10 merged source and verified Linux installation
 
 - Separate live health monitoring from the historical last-known health of exited containers. Manager no longer calls old, stopped rollback containers active unhealthy workloads.
 - Keep historical health visible as `Last: …` inside the full Docker inventory; omit historical stale health from the Needs attention filter.
 - Add synthetic parser regression coverage and retain the operational state of all containers for inspection.
-- This source change must pass exact-head tests and packaging before merge or installation; it does not itself establish production or release readiness.
+- The v0.2.10 source advanced to `main` as commit `d6f9ccf9014102ecc1455019fd75eb4bf2cd10fb` and was subsequently refined by PR #117. The authoritative post-PR #117 revision is `f1a97eaa785da245f69ff061c98b02e9333c12dd`.
+- v0.2.10 was installed on the connected Linux laptop on October 21, 2026 using the staged installer after a verified compressed backup of v0.2.9; the installed application reconnected by read-only SSH and showed Docker AVAILABLE without the previous stale unhealthy alerts. This is laptop verification, not a server deployment or Stable release.
+
+### Native Glaze controls and live Docker health filters — PR #117
+
+- Reconciled v0.2.10 health filters against active running containers; exited container historical status remains visible under Stopped/All and within details without creating false current-health alarms.
+- Improved Qt Light/Dark settings dropdowns and keyboard-usable numeric fields; increased inventory row spacing, label room, and accessible selection contrast. Bundled required chevron assets into native Linux Debian acceptance packaging.
+- Prevented premature all-clear messages while system or infrastructure checks are incomplete.
+- PR #117 merged as commit `f1a97eaa785da245f69ff061c98b02e9333c12dd` after all eight workflow families passed; 24 desktop/configuration/Docker regression tests passed from the exact merged checkout on the connected laptop.
+- Post-install Linux readback verified v0.2.10, installed assets and desktop entry, private configuration permissions, working read-only SSH, Docker inventory, NetBird information, and rendered Overview/Containers/Network. Three failed systemd units and three connecting NetBird peers remain unresolved operational findings tracked by [issue #114](https://github.com/GoreeCloud/manager/issues/114).
+- No production VPS changes or production/Stable qualification are claimed.
 
 ## 2026-09-22
 
