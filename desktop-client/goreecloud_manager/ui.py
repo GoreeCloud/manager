@@ -1523,7 +1523,8 @@ class MainWindow(QMainWindow):
                 continue
             if mode == "stopped" and state == "running":
                 continue
-            if mode == "attention" and not (health in {"unhealthy", "starting"} or state in {"restarting", "dead"} or item.oom_killed):
+            active_health_issue = state == "running" and health in {"unhealthy", "starting"}
+            if mode == "attention" and not (active_health_issue or state in {"restarting", "dead"} or item.oom_killed):
                 continue
             if mode == "healthy" and health != "healthy":
                 continue
@@ -1549,6 +1550,8 @@ class MainWindow(QMainWindow):
         for row, item in enumerate(filtered):
             memory = _compact_docker_memory(item.memory, item.memory_percent)
             health = item.health.title() if item.health else "No healthcheck"
+            if item.health and item.state.casefold() != "running":
+                health = f"Last: {health}"
             status_text = _clean_docker_status(item.status)
             values = [item.name, item.image, item.state, health, item.cpu, memory, item.ports or "—", status_text]
             sort_values = [
@@ -1568,7 +1571,9 @@ class MainWindow(QMainWindow):
                     elif state_lower in {"exited", "dead"}:
                         cell.setForeground(QColor("#91a4c2" if state_lower == "exited" else "#fb7185"))
                 if col == 3 and item.health:
-                    if item.health.casefold() == "healthy":
+                    if item.state.casefold() != "running":
+                        cell.setForeground(QColor("#91a4c2"))
+                    elif item.health.casefold() == "healthy":
                         cell.setForeground(QColor("#4ade80"))
                     elif item.health.casefold() == "unhealthy":
                         cell.setForeground(QColor("#fb7185"))
