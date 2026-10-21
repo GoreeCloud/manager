@@ -19,7 +19,8 @@ def _parser():
     statements = []
     for node in ast.parse(content).body:
         if isinstance(node, (ast.FunctionDef, ast.ClassDef)) and node.name in selected:
-            statements.append(ast.get_source_segment(content, node))
+            definition = ast.get_source_segment(content, node)
+            statements.append(("@dataclass\n" + definition) if isinstance(node, ast.ClassDef) else definition)
     scope = {"dataclass": dataclass, "field": field, "json": json, "Any": Any}
     exec("\n\n".join(statements), scope)
     return scope["_parse_docker"]
