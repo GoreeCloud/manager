@@ -4,7 +4,7 @@ GoreeCloud Manager is an original GoreeCloud application intended to become the 
 
 ## Current Status
 
-**v0.1 development — read-only integration and production-readiness work.** The authenticated Django application shell, minimal health endpoint, Docker packaging, CI, Glaze UI foundation, live read-only NetBird adapter, read-only Healthchecks monitoring adapter, Uptime Kuma metrics adapter, delegated read-only Kopia status-artifact adapter, delegated read-only Beszel resource adapter, and GoreeCloud Tasks read-only API adapter are implemented.
+**v0.1 development — read-only integration and production-readiness work.** The authenticated Django application shell, minimal health endpoint, Docker packaging, CI, predecessor-era UI foundation (pending GoreeCloud UI migration), live read-only NetBird adapter, read-only Healthchecks monitoring adapter, Uptime Kuma metrics adapter, delegated read-only Kopia status-artifact adapter, delegated read-only Beszel resource adapter, and GoreeCloud Tasks read-only API adapter are implemented.
 
 Beszel Milestone 3D has completed its development/live-validation gate, including the delegated credential boundary, live resource data, fail-soft behavior, timer operation, minimal health endpoint, and authenticated loopback/SSH-tunnel UI review. This does **not** approve production publication. GoreeCloud Tasks has passed disposable cross-application and final-topology validation, and Manager now provides a data-minimized Tasks integration-specific monitoring signal. The actual production Tasks identity, credential, network, private publication, external monitor registration/alert delivery, and activation remain separate approval-controlled work.
 
@@ -21,7 +21,7 @@ Docker inventory visibility and ntfy remain planned Manager integrations.
 - Specialized services remain authoritative for their own operations.
 - GoreeCloud Tasks remains authoritative for task content and task authorization.
 - Backup and recovery are required before production dependency.
-- Glaze UI must improve usability without obscuring operational state or weakening accessibility.
+- GoreeCloud UI must improve usability without obscuring operational state or weakening accessibility. Accepted consumer adoption remains unverified.
 
 ## Technology Stack
 
@@ -35,15 +35,15 @@ Docker inventory visibility and ntfy remain planned Manager integrations.
 - Docker / Docker Compose
 - GitHub Actions
 
-## Glaze UI
+## GoreeCloud UI target and legacy implementation
 
-Manager uses the GoreeCloud Glaze UI design language for its shared application shell and operational surfaces. The implementation includes reusable design tokens, layered surfaces, semantic status colors, responsive navigation, visible keyboard focus, a skip link, reduced-motion and reduced-transparency behavior, and System/Light/Dark appearance modes.
+[GoreeCloud UI](https://github.com/GoreeCloud/gc-ui) is the exclusive current design authority for Manager. The existing development shell was implemented using the legacy Glaze UI design language; this is historical source state and does **not** qualify Manager as a GoreeCloud UI consumer. The current implementation includes reusable design tokens, layered surfaces, semantic status colors, responsive navigation, visible keyboard focus, a skip link, reduced-motion and reduced-transparency behavior, and System/Light/Dark appearance modes. Adoption of supported GoreeCloud UI contracts and product-local acceptance remains outstanding.
 
 The explicit appearance preference is stored only in browser `localStorage` under `goreecloud-manager-theme`. Returning to System removes the stored override. No theme choice is written to the Manager database or sent to an integration.
 
-No external font, analytics package, telemetry SDK, or third-party browser script is required by the Glaze UI implementation.
+No external font, analytics package, telemetry SDK, or third-party browser script is required by the current legacy UI implementation.
 
-See [`docs/glaze-ui.md`](docs/glaze-ui.md) for the repository-local UI, privacy, and accessibility contract.
+See [`docs/glaze-ui.md`](docs/glaze-ui.md) for historical UI implementation and accessibility evidence; it is not the current GoreeCloud UI authority.
 
 ## Development
 
@@ -212,7 +212,7 @@ Production publication, external Tasks integration monitor registration/alert de
 See:
 
 - [`docs/project-specification.md`](docs/project-specification.md) — current v0.1 implementation blueprint and milestone state.
-- [`docs/glaze-ui.md`](docs/glaze-ui.md) — Manager Glaze UI, appearance, privacy, and accessibility contract.
+- [`docs/glaze-ui.md`](docs/glaze-ui.md) — historical Manager UI, appearance, privacy, and accessibility contract; requires GoreeCloud UI migration.
 - [`docs/integrations/netbird.md`](docs/integrations/netbird.md) — NetBird adapter contract.
 - [`docs/integrations/healthchecks.md`](docs/integrations/healthchecks.md) — Healthchecks adapter contract.
 - [`docs/integrations/uptime-kuma.md`](docs/integrations/uptime-kuma.md) — Uptime Kuma metrics adapter contract.
