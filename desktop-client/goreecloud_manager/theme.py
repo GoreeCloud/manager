@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from pathlib import Path
 
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QGuiApplication
@@ -134,6 +135,8 @@ def semantic_color(preference: str, role: str, app: QGuiApplication | None = Non
 
 def stylesheet(preference: str, app: QGuiApplication | None = None) -> str:
     t = theme_tokens(preference, app)
+    appearance = resolve_appearance(preference, app)
+    dropdown_icon = (Path(__file__).resolve().parent.parent / "assets" / f"chevron-down-{appearance}.svg").as_posix()
     return f"""
 QMainWindow, QDialog, QWidget#root, QWidget#scrollBody, QWidget#scrollViewport,
 QWidget#settingsBody, QWidget#settingsViewport {{
@@ -212,7 +215,7 @@ QComboBox::drop-down {{
     subcontrol-origin: padding; subcontrol-position: top right;
     width: 27px; border: none; background: transparent;
 }}
-QComboBox::down-arrow {{ width: 10px; height: 10px; }}
+QComboBox::down-arrow {{ image: url("{dropdown_icon}"); width: 14px; height: 14px; }}
 QSpinBox {{ padding-right: 12px; }}
 QComboBox QAbstractItemView {{
     background: {t.surface}; color: {t.text}; border: 1px solid {t.border_strong};
