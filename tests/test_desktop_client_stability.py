@@ -101,6 +101,20 @@ class DesktopClientStabilityContractTests(TestCase):
         self.assertIn('self.refresh_button.setShortcut("Ctrl+R")', source)
         self.assertIn("self.nav_tabs.tabBar().setDrawBase(False)", source)
 
+    def test_native_settings_controls_and_packaging_keep_their_theme_icons(self):
+        ui = (PACKAGE_ROOT / "ui.py").read_text(encoding="utf-8")
+        theme = (PACKAGE_ROOT / "theme.py").read_text(encoding="utf-8")
+        packaging = (REPOSITORY_ROOT / "packaging" / "build-deb.sh").read_text(encoding="utf-8")
+        self.assertGreaterEqual(ui.count("setButtonSymbols(QAbstractSpinBox.ButtonSymbols.NoButtons)"), 3)
+        self.assertIn("QComboBox::down-arrow", theme)
+        self.assertIn("dropdown_icon = (Path(__file__)", theme)
+        self.assertIn("selection-background-color: {t.primary_soft}", theme)
+        self.assertIn('--add-data "${ROOT}/desktop-client/assets:assets"', packaging)
+        for mode in ("light", "dark"):
+            icon = DESKTOP_ROOT / "assets" / f"chevron-down-{mode}.svg"
+            self.assertTrue(icon.is_file())
+            self.assertIn("<svg", icon.read_text(encoding="utf-8"))
+
     def test_config_recovery_is_integrated_with_startup_and_settings_writes(self):
         application = (PACKAGE_ROOT / "application.py").read_text(encoding="utf-8")
         recovery = (PACKAGE_ROOT / "recovery.py").read_text(encoding="utf-8")
@@ -156,7 +170,9 @@ class DesktopClientStabilityContractTests(TestCase):
         self.assertIn('active = [item for item in containers if item.state.strip().casefold() == "running"]', infrastructure)
         self.assertIn("unhealthy = sum(1 for item in active", infrastructure)
         self.assertIn("no_healthcheck = max(0, running - health_monitored)", infrastructure)
-        self.assertIn('active_health_issue = state == "running"', ui)
+        self.assertIn('active_health_issue = active_health in {"unhealthy", "starting"}', ui)
+        self.assertIn('mode == "unhealthy" and active_health != "unhealthy"', ui)
+        self.assertIn("Checks are still in progress; infrastructure status may be incomplete.", ui)
         self.assertIn('health = f"Last: {health}"', ui)
 
     def test_stabilization_version_is_0_2_10(self):
