@@ -150,6 +150,15 @@ class DesktopClientStabilityContractTests(TestCase):
         for command in prohibited_commands:
             self.assertNotIn(command, source)
 
-    def test_stabilization_version_is_0_2_9(self):
+    def test_live_docker_health_excludes_exited_history(self):
+        infrastructure = (PACKAGE_ROOT / "infrastructure.py").read_text(encoding="utf-8")
+        ui = (PACKAGE_ROOT / "ui.py").read_text(encoding="utf-8")
+        self.assertIn('active = [item for item in containers if item.state.strip().casefold() == "running"]', infrastructure)
+        self.assertIn("unhealthy = sum(1 for item in active", infrastructure)
+        self.assertIn("no_healthcheck = max(0, running - health_monitored)", infrastructure)
+        self.assertIn('active_health_issue = state == "running"', ui)
+        self.assertIn('health = f"Last: {health}"', ui)
+
+    def test_stabilization_version_is_0_2_10(self):
         source = (PACKAGE_ROOT / "__init__.py").read_text(encoding="utf-8")
-        self.assertIn('__version__ = "0.2.9"', source)
+        self.assertIn('__version__ = "0.2.10"', source)
