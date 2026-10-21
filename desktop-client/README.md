@@ -6,11 +6,11 @@ It is a companion to the repository's existing server-side Django GoreeCloud Man
 
 ## Current version
 
-**v0.2.7 — configuration recovery and stability hardening**
+**v0.2.10 — accurate live Docker health and desktop reliability**
 
 The client is built with Python and PySide6/Qt. It runs on a Linux workstation and can use the system OpenSSH client to collect read-only operational information from a GoreeCloud server.
 
-v0.2.7 keeps the existing read-only monitoring feature set and semantic Glaze UI System, Light, and Dark appearance modes. It adds a last-known-good user-configuration recovery layer while retaining exact direct dependency pins, `pip check`, private atomic configuration writes, bounded parsing for malformed configuration values, fail-closed SSH host-key verification, and staged installation with rollback-safe cutover.
+v0.2.10 retains read-only infrastructure discovery, Glaze System/Light/Dark appearances, private atomic configuration and recovery, fail-closed SSH host verification, dependency validation, and staged installation. Its Docker health summary counts only **running** workloads: historical unhealthy statuses retained by exited/rollback containers remain inspectable in the inventory, but do not generate false live health alarms. The Overview scrolls as one surface so operational alerts, system details, and service controls remain reachable at shorter window heights.
 
 ### Glaze UI appearance
 
@@ -33,6 +33,7 @@ The selected preference is stored in the private user configuration as `app.appe
 
 - Read-only Docker discovery and inventory
 - Docker Engine version, total/running/stopped counts, and health-check summary
+- Active health counters and alerts exclude stopped/exited container history; inactive containers with a remembered status are labeled **Last: Healthy/Unhealthy/Starting**
 - Search, filters, sorting, and collapsible container details
 - CPU, memory, image, state, health, ports, status, PID, exit code, restart policy, OOM-killed state, timestamps, Docker network mode, per-network IPs, mounts, and health failing streak
 - No start, stop, restart, delete, or other container-control actions in this release
