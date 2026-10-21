@@ -101,6 +101,19 @@ class DesktopClientStabilityContractTests(TestCase):
         self.assertIn('self.refresh_button.setShortcut("Ctrl+R")', source)
         self.assertIn("self.nav_tabs.tabBar().setDrawBase(False)", source)
 
+    def test_settings_controls_have_usable_glaze_affordances(self):
+        source = (PACKAGE_ROOT / "ui.py").read_text(encoding="utf-8")
+        theme = (PACKAGE_ROOT / "theme.py").read_text(encoding="utf-8")
+        self.assertGreaterEqual(source.count("setButtonSymbols(QAbstractSpinBox.ButtonSymbols.NoButtons)"), 3)
+        self.assertIn('QComboBox::drop-down', theme)
+        self.assertIn('QComboBox::down-arrow', theme)
+        self.assertIn('dropdown_icon = (Path(__file__)', theme)
+        self.assertIn('selection-background-color: {t.primary_soft}', theme)
+        for mode in ("light", "dark"):
+            icon = (DESKTOP_ROOT / "assets" / f"chevron-down-{mode}.svg")
+            self.assertTrue(icon.is_file())
+            self.assertIn("<svg", icon.read_text(encoding="utf-8"))
+
     def test_config_recovery_is_integrated_with_startup_and_settings_writes(self):
         application = (PACKAGE_ROOT / "application.py").read_text(encoding="utf-8")
         recovery = (PACKAGE_ROOT / "recovery.py").read_text(encoding="utf-8")
