@@ -99,6 +99,7 @@ class DesktopClientStabilityContractTests(TestCase):
         self.assertIn('QLabel#attentionLabel[state="clear"]', theme)
         self.assertNotIn("self.attention_label.setStyleSheet(", app)
         self.assertIn('self.refresh_button.setShortcut("Ctrl+R")', source)
+        self.assertIn("self.nav_tabs.tabBar().setDrawBase(False)", source)
 
     def test_config_recovery_is_integrated_with_startup_and_settings_writes(self):
         application = (PACKAGE_ROOT / "application.py").read_text(encoding="utf-8")
