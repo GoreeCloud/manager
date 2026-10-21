@@ -1090,6 +1090,8 @@ class MainWindow(QMainWindow):
         self.refresh_button = QPushButton("Refresh")
         self.refresh_button.setProperty("class", "secondary")
         self.refresh_button.clicked.connect(self.refresh_all)
+        self.refresh_button.setShortcut("Ctrl+R")
+        self.refresh_button.setToolTip("Refresh all infrastructure checks (Ctrl+R)")
         header.addWidget(self.refresh_button)
         shell.addLayout(header)
 
@@ -1112,6 +1114,7 @@ class MainWindow(QMainWindow):
         self.source_badge = QLabel("LOCAL")
         self.source_badge.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.source_badge.setObjectName("sourceBadgeLocal")
+        self.source_badge.setAccessibleName("Metrics source connection status")
         source_layout.addWidget(self.source_badge)
         shell.addWidget(source_card)
 
@@ -1225,10 +1228,12 @@ class MainWindow(QMainWindow):
             operational_grid.setColumnStretch(index, 1)
         operational_layout.addLayout(operational_grid)
         self.attention_label = QLabel("Collecting operational status…")
-        self.attention_label.setProperty("class", "muted")
+        self.attention_label.setObjectName("attentionLabel")
+        self.attention_label.setProperty("state", "clear")
         self.attention_label.setWordWrap(True)
         operational_layout.addWidget(self.attention_label)
-        outer.addWidget(self.operational_card)
+        # Prioritize actionable infrastructure status over the raw system inventory.
+        outer.insertWidget(1, self.operational_card)
 
         services_header = QHBoxLayout()
         services_title = QLabel("Services")
@@ -2123,10 +2128,11 @@ class MainWindow(QMainWindow):
 
         if alerts:
             self.attention_label.setText("Needs attention: " + " • ".join(alerts))
-            self.attention_label.setStyleSheet("color: #fbbf24;")
         else:
             self.attention_label.setText("No active infrastructure alerts detected by the current read-only checks.")
-            self.attention_label.setStyleSheet("color: #91a4c2;")
+        self.attention_label.setProperty("state", "active" if alerts else "clear")
+        self.attention_label.style().unpolish(self.attention_label)
+        self.attention_label.style().polish(self.attention_label)
 
     def _set_badge(self, widget: QLabel, text: str, class_name: str):
         widget.setText(text)
