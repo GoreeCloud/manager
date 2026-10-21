@@ -100,6 +100,7 @@ class DesktopClientStabilityContractTests(TestCase):
         self.assertNotIn("self.attention_label.setStyleSheet(", app)
         self.assertIn('self.refresh_button.setShortcut("Ctrl+R")', source)
         self.assertIn("self.nav_tabs.tabBar().setDrawBase(False)", source)
+        self.assertIn("Checks are still in progress; infrastructure status may be incomplete.", source)
 
     def test_settings_controls_have_usable_glaze_affordances(self):
         source = (PACKAGE_ROOT / "ui.py").read_text(encoding="utf-8")
