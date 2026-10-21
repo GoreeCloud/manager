@@ -1149,9 +1149,15 @@ class MainWindow(QMainWindow):
         self.refresh_all()
 
     def _build_overview_tab(self) -> QWidget:
-        tab = QWidget()
-        tab.setObjectName("scrollBody")
-        outer = QVBoxLayout(tab)
+        # Let the whole overview scroll, rather than compressing critical status
+        # and inventory panels when the window or display is short.
+        tab = QScrollArea()
+        tab.setWidgetResizable(True)
+        tab.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+        tab.viewport().setObjectName("scrollViewport")
+        content = QWidget()
+        content.setObjectName("scrollBody")
+        outer = QVBoxLayout(content)
         outer.setContentsMargins(4, 12, 4, 4)
         outer.setSpacing(14)
 
@@ -1169,6 +1175,7 @@ class MainWindow(QMainWindow):
 
         self.details_card = QFrame()
         self.details_card.setObjectName("detailsCard")
+        self.details_card.setMinimumHeight(155)
         details_layout = QVBoxLayout(self.details_card)
         details_layout.setContentsMargins(16, 13, 16, 14)
         details_layout.setSpacing(10)
@@ -1204,6 +1211,7 @@ class MainWindow(QMainWindow):
 
         self.operational_card = QFrame()
         self.operational_card.setObjectName("detailsCard")
+        self.operational_card.setMinimumHeight(174)
         operational_layout = QVBoxLayout(self.operational_card)
         operational_layout.setContentsMargins(16, 13, 16, 14)
         operational_layout.setSpacing(10)
@@ -1245,12 +1253,14 @@ class MainWindow(QMainWindow):
         services_header.addWidget(self.services_summary)
         outer.addLayout(services_header)
 
-        self.scroll = QScrollArea()
-        self.scroll.setWidgetResizable(True)
-        self.scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
-        self.scroll.viewport().setObjectName("scrollViewport")
-        outer.addWidget(self.scroll, 1)
+        self.service_container = QWidget()
+        self.service_container.setObjectName("scrollBody")
+        self.service_layout = QVBoxLayout(self.service_container)
+        self.service_layout.setContentsMargins(0, 0, 0, 0)
+        outer.addWidget(self.service_container)
         self.rebuild_service_cards()
+        outer.addStretch(1)
+        tab.setWidget(content)
         return tab
 
     def _summary_card(self, title: str):
@@ -1722,6 +1732,11 @@ class MainWindow(QMainWindow):
             self.timer.start(seconds * 1000)
 
     def rebuild_service_cards(self):
+        # Service cards participate in the single overview scroll surface.
+        old_body = getattr(self, "_service_body", None)
+        if old_body is not None:
+            self.service_layout.removeWidget(old_body)
+            old_body.deleteLater()
         body = QWidget()
         body.setObjectName("scrollBody")
         grid = QGridLayout(body)
@@ -1732,6 +1747,7 @@ class MainWindow(QMainWindow):
         if not enabled_services:
             empty = QFrame()
             empty.setObjectName("emptyState")
+            empty.setMinimumHeight(145)
             empty_layout = QVBoxLayout(empty)
             empty_layout.setContentsMargins(24, 24, 24, 24)
             empty_layout.setSpacing(8)
@@ -1759,7 +1775,8 @@ class MainWindow(QMainWindow):
             grid.addItem(QSpacerItem(0, 0, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding), (len(enabled_services) + 1) // 2, 0)
         grid.setColumnStretch(0, 1)
         grid.setColumnStretch(1, 1)
-        self.scroll.setWidget(body)
+        self.service_layout.addWidget(body)
+        self._service_body = body
 
     def refresh_auto(self):
         # Overview auto-refreshes stay lightweight. Docker stats/inspect can be
