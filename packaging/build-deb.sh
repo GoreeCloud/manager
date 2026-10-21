@@ -2,7 +2,7 @@
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-VERSION="${MANAGER_VERSION:-0.2.9}"
+VERSION="${MANAGER_VERSION:-0.2.10}"
 ARCH="${MANAGER_ARCH:-amd64}"
 SOURCE_REVISION="${MANAGER_SOURCE_REVISION:-local}"
 EXPECTED_LICENSE_BLOB="be3f7b28e564e7dd05eaf59d64adba1a4065ac0e"
