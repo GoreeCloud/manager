@@ -10,7 +10,7 @@ It is a companion to the repository's existing server-side Django GoreeCloud Man
 
 The client is built with Python and PySide6/Qt. It runs on a Linux workstation and can use the system OpenSSH client to collect read-only operational information from a GoreeCloud server.
 
-v0.2.10 retains read-only infrastructure discovery, Glaze System/Light/Dark appearances, private atomic configuration and recovery, fail-closed SSH host verification, dependency validation, and staged installation. Its Docker health summary counts only **running** workloads: historical unhealthy statuses retained by exited/rollback containers remain inspectable in the inventory, but do not generate false live health alarms. The Overview scrolls as one surface so operational alerts, system details, and service controls remain reachable at shorter window heights.
+v0.2.10 retains read-only infrastructure discovery, Glaze System/Light/Dark appearances, private atomic configuration and recovery, fail-closed SSH host verification, dependency validation, and staged installation. Native Settings use theme-aware dropdown chevrons and keyboard-editable numeric fields; Docker status filters distinguish active health from retained stopped-container history. Its Docker health summary counts only **running** workloads: historical unhealthy statuses retained by exited/rollback containers remain inspectable in the inventory, but do not generate false live health alarms. The Overview scrolls as one surface so operational alerts, system details, and service controls remain reachable at shorter window heights.
 
 ### Glaze UI appearance
 
@@ -113,6 +113,6 @@ The application invokes the system OpenSSH client with non-interactive behavior.
 
 ## Security boundary
 
-v0.2.7 is intentionally read-only. It does not start, stop, restart, delete, or modify Docker containers, NetBird configuration, systemd units, or other server workloads.
+v0.2.10 is intentionally read-only. It does not start, stop, restart, delete, or modify Docker containers, NetBird configuration, systemd units, or other server workloads.
 
 No private SSH key contents, passwords, API tokens, or populated user configuration belong in this repository.
