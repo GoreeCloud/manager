@@ -2159,6 +2159,8 @@ class MainWindow(QMainWindow):
 
         if alerts:
             self.attention_label.setText("Needs attention: " + " • ".join(alerts))
+        elif health is None or docker is None or nb is None or self.system_check_pending or self.infrastructure_check_pending:
+            self.attention_label.setText("Checks are still in progress; infrastructure status may be incomplete.")
         else:
             self.attention_label.setText("No active infrastructure alerts detected by the current read-only checks.")
         self.attention_label.setProperty("state", "active" if alerts else "clear")
