@@ -1519,19 +1519,20 @@ class MainWindow(QMainWindow):
         for item in docker.containers:
             state = item.state.casefold()
             health = item.health.casefold()
+            active_health = health if state == "running" else ""
             if mode == "running" and state != "running":
                 continue
             if mode == "stopped" and state == "running":
                 continue
-            if mode == "attention" and not (health in {"unhealthy", "starting"} or state in {"restarting", "dead"} or item.oom_killed):
+            if mode == "attention" and not (active_health in {"unhealthy", "starting"} or state in {"restarting", "dead"} or item.oom_killed):
                 continue
-            if mode == "healthy" and health != "healthy":
+            if mode == "healthy" and active_health != "healthy":
                 continue
-            if mode == "unhealthy" and health != "unhealthy":
+            if mode == "unhealthy" and active_health != "unhealthy":
                 continue
-            if mode == "starting" and health != "starting":
+            if mode == "starting" and active_health != "starting":
                 continue
-            if mode == "no_healthcheck" and health:
+            if mode == "no_healthcheck" and (state != "running" or active_health):
                 continue
             haystack = " ".join((item.name, item.image, item.state, item.health, item.ports, item.status, item.networks)).casefold()
             if query and query not in haystack:
@@ -1548,7 +1549,7 @@ class MainWindow(QMainWindow):
         self.container_table.setRowCount(len(filtered))
         for row, item in enumerate(filtered):
             memory = _compact_docker_memory(item.memory, item.memory_percent)
-            health = item.health.title() if item.health else "No healthcheck"
+            health = (item.health.title() if item.health else "No healthcheck") if item.state.casefold() == "running" else (f"Last: {item.health.casefold()}" if item.health else "Not running")
             status_text = _clean_docker_status(item.status)
             values = [item.name, item.image, item.state, health, item.cpu, memory, item.ports or "—", status_text]
             sort_values = [
@@ -1567,14 +1568,14 @@ class MainWindow(QMainWindow):
                         cell.setForeground(QColor("#fbbf24"))
                     elif state_lower in {"exited", "dead"}:
                         cell.setForeground(QColor("#91a4c2" if state_lower == "exited" else "#fb7185"))
-                if col == 3 and item.health:
+                if col == 3 and item.health and item.state.casefold() == "running":
                     if item.health.casefold() == "healthy":
                         cell.setForeground(QColor("#4ade80"))
                     elif item.health.casefold() == "unhealthy":
                         cell.setForeground(QColor("#fb7185"))
                     elif item.health.casefold() == "starting":
                         cell.setForeground(QColor("#fbbf24"))
-                elif col == 3 and not item.health:
+                elif col == 3:
                     cell.setForeground(QColor("#91a4c2"))
                 self.container_table.setItem(row, col, cell)
         self.container_table.setSortingEnabled(sorting)
@@ -2092,7 +2093,7 @@ class MainWindow(QMainWindow):
         elif docker.health_starting:
             self.status_docker.set_state(f"{docker.health_starting} STARTING", f"{docker.healthy} healthy", "statusBadgeWarn")
         else:
-            self.status_docker.set_state("HEALTHY", f"{docker.running} running • {docker.stopped} stopped", "statusBadgeGood")
+            self.status_docker.set_state("AVAILABLE", f"{docker.running} running • {docker.stopped} stopped", "statusBadgeGood")
 
         nb = self.current_netbird
         if nb is None:
